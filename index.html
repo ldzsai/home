@@ -19,14 +19,32 @@
                         geminiYellow: '#FBBC05',
                         geminiRed: '#EA4335',
                         darkBg: '#0F172A',
-                        cardBg: '#1E293B'
+                        cardBg: '#1E293B',
+                        accentPurple: '#8B5CF6',
+                        neonBlue: '#00f0ff',
+                        neonPink: '#ff00c8'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(66, 133, 244, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(66, 133, 244, 0.8), 0 0 30px rgba(66, 133, 244, 0.6)' }
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
 
         html {
             /* 平滑滚动过渡 */
@@ -39,6 +57,16 @@
             color: #e2e8f0;
             overflow-x: hidden;
             position: relative;
+        }
+
+        /* 按钮发光效果 */
+        .btn-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* 浮动动画 */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
         /* 动态粒子效果 */
@@ -72,16 +100,19 @@
             }
         }
 
-        /* 调整原有home-gradient样式 */
-        .home-gradient {
+        /* 粒子背景动画 */
+        .home-section::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at top left, rgba(66, 133, 244, 0.1) 0%, transparent 50%), radial-gradient(circle at bottom right, rgba(52, 168, 83, 0.1) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 10% 20%, rgba(66, 133, 244, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(52, 168, 83, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(251, 188, 5, 0.05) 0%, transparent 30%);
             z-index: -2;
-            /* 调整为底层 */
         }
 
         .bento-grid {
@@ -109,6 +140,36 @@
 
             .bento-grid .grid-item:nth-child(n+2) {
                 margin-top: 24px;
+            }
+        }
+
+        /* 特效文字 */
+        .glowing-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glowing-text::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.3), transparent);
+            animation: glowText 3s infinite;
+            opacity: 0;
+        }
+
+        @keyframes glowText {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
             }
         }
 
@@ -318,6 +379,24 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 4rem;
         }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #4285F4, #34A853);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #34A853, #4285F4);
+        }
     </style>
 </head>
 
@@ -330,39 +409,32 @@
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
             <!-- 左侧Logo和标题 -->
             <div class="flex items-center space-x-4">
-                <div class="w-10 h-10 rounded-lg bg-geminiBlue/80 backdrop-blur-lg flex items-center justify-center">
-                    <!-- <i class="fas fa-robot"></i> -->
-                    <img src="static/ldzsai-logo.png" alt="灵动智算" />
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-geminiBlue to-accentPurple flex items-center justify-center shadow-lg animate-pulse-slow">
+                    <i class="fas fa-brain text-white text-xl"></i>
                 </div>
-                <span class="text-2xl font-bold">灵动智算</span>
+                <img src="static/ldzsai-logo.png" style="width: 9.5%; border-radius: 0.75rem;" alt="灵动智算" class="hidden md:block" />
+                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-geminiBlue to-neonBlue">灵动智算</span>
             </div>
 
             <!-- 右侧导航菜单 -->
-            <div id="desktopMenu"
-                class="hidden md:flex items-center transition-all duration-300 max-h-0 overflow-hidden md:max-h-none md:overflow-visible md:flex-row mobile-menu flex-col w-full bg-darkBg/95 backdrop-blur-lg border-t border-cardBg md:border-0 md:bg-transparent md:backdrop-blur-none absolute left-0 top-full md:static md:w-auto px-6 md:px-0 py-4 md:py-0">
-                <a href="#home"
-                    class="block px-4 py-3 text-gray-300 hover:text-geminiBlue transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-home mr-2"></i>首页
+            <div id="desktopMenu" class="hidden md:flex items-center space-x-4 whitespace-nowrap">
+                <a href="#home" class="px-5 py-3 text-gray-300 hover:text-geminiBlue transition-all duration-300 rounded-xl hover:bg-geminiBlue/10 font-medium">
+                    <i class="fas fa-home mr-2"></i>首页 
                 </a>
-                <a href="#team"
-                    class="block px-4 py-3 text-gray-300 hover:text-geminiGreen transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-users mr-2"></i>团队
+                <a href="#team" class="px-5 py-3 text-gray-300 hover:text-geminiGreen transition-all duration-300 rounded-xl hover:bg-geminiGreen/10 font-medium">
+                    <i class="fas fa-users mr-2"></i>团队 
                 </a>
-                <a href="#applications"
-                    class="block px-4 py-3 text-gray-300 hover:text-geminiYellow transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-shapes mr-2"></i>场景
+                <a href="#applications" class="px-5 py-3 text-gray-300 hover:text-geminiYellow transition-all duration-300 rounded-xl hover:bg-geminiYellow/10 font-medium">
+                    <i class="fas fa-shapes mr-2"></i>场景 
                 </a>
-                <a href="#projects"
-                    class="block px-4 py-3 text-gray-300 hover:text-purple-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-file-alt mr-2"></i>项目
+                <a href="#projects" class="px-5 py-3 text-gray-300 hover:text-purple-500 transition-all duration-300 rounded-xl hover:bg-purple-500/10 font-medium">
+                    <i class="fas fa-file-alt mr-2"></i>项目 
                 </a>
-                <a href="#data"
-                    class="block px-4 py-3 text-gray-300 hover:text-pink-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-database mr-2"></i>数据
+                <a href="#data" class="px-5 py-3 text-gray-300 hover:text-pink-500 transition-all duration-300 rounded-xl hover:bg-pink-500/10 font-medium">
+                    <i class="fas fa-database mr-2"></i>数据 
                 </a>
-                <a href="#contact"
-                    class="block px-4 py-3 text-gray-300 hover:text-geminiRed transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                    <i class="fas fa-envelope mr-2"></i>联系我们
+                <a href="#contact" class="px-5 py-3 text-gray-300 hover:text-geminiRed transition-all duration-300 rounded-xl hover:bg-geminiRed/10 font-medium">
+                    <i class="fas fa-envelope mr-2"></i>联系我们 
                 </a>
             </div>
 
@@ -374,47 +446,59 @@
     </nav>
 
     <!-- Home Section -->
-    <section class="home-section" id="home">
-        <div class="home-gradient"></div>
-        <h1 class="text-6xl md:text-8xl font-bold mb-6">
-            <span class="text-white">灵</span>
-            <span class="text-geminiBlue">动</span>
-            <span class="text-geminiGreen">智</span>
-            <span class="text-geminiYellow">算</span>
-        </h1>
-        <p class="text-3xl md:text-4xl font-bold mb-8 max-w-4xl">
-            <span class="text-white">用智能算法驱动</span>
-            <span class="text-geminiBlue">未来</span>
-        </p>
-        <p class="text-xl text-gray-300 mb-12 max-w-2xl">
-            “用科技赋能未来”，致力于通过创新的AI技术推动社会进步与产业升级，为各行业量身定制高效、智能的解决方案，助力行业实现数字化转型与跨越式发展。
-        </p>
+    <section
+        class="home-section min-h-screen flex flex-col justify-center items-center text-center px-4 pt-24 pb-16 relative overflow-hidden"
+        id="home">
+        <div class="max-w-6xl mx-auto z-10">
+            <h1 class="hero-title text-6xl md:text-8xl font-bold mb-8 leading-tight">
+                <span class="text-white">灵</span>
+                <span class="text-geminiBlue">动</span>
+                <span class="text-geminiGreen">智</span>
+                <span class="text-geminiYellow">算</span>
+            </h1>
+            <p class="text-2xl md:text-4xl font-bold mb-8 max-w-4xl mx-auto">
+                <span class="text-white">用智能算法驱动</span>
+                <span class="text-geminiBlue glowing-text">未来</span>
+            </p>
+            <p class="text-xl text-gray-300 mb-16 max-w-3xl mx-auto leading-relaxed">
+                “用科技赋能未来”，致力于通过创新的AI技术推动社会进步与产业升级，为各行业量身定制高效、智能的解决方案，助力行业实现数字化转型与跨越式发展。
+            </p>
 
-        <div class="flex flex-wrap gap-4 justify-center">
-            <div
-                class="bg-geminiBlue/20 backdrop-blur-sm border border-geminiBlue/30 rounded-2xl px-8 py-4 text-center">
-                <div class="text-4xl font-bold mb-2">1</div>
-                <div class="text-sm">创新</div>
+            <div class="flex flex-wrap gap-6 justify-center mb-16">
+                <div
+                    class="bg-gradient-to-br from-geminiBlue/30 to-geminiBlue/10 backdrop-blur-sm border border-geminiBlue/40 rounded-2xl px-8 py-5 text-center shadow-lg hover:shadow-geminiBlue/20 transition-all">
+                    <div class="text-4xl font-bold mb-2 text-geminiBlue">1</div>
+                    <div class="text-sm font-medium">创新</div>
+                </div>
+                <div
+                    class="bg-gradient-to-br from-geminiGreen/30 to-geminiGreen/10 backdrop-blur-sm border border-geminiGreen/40 rounded-2xl px-8 py-5 text-center shadow-lg hover:shadow-geminiGreen/20 transition-all">
+                    <div class="text-4xl font-bold mb-2 text-geminiGreen">2</div>
+                    <div class="text-sm font-medium">沟通</div>
+                </div>
+                <div
+                    class="bg-gradient-to-br from-geminiYellow/30 to-geminiYellow/10 backdrop-blur-sm border border-geminiYellow/40 rounded-2xl px-8 py-5 text-center shadow-lg hover:shadow-geminiYellow/20 transition-all">
+                    <div class="text-4xl font-bold mb-2 text-geminiYellow">3</div>
+                    <div class="text-sm font-medium">信任</div>
+                </div>
+                <div
+                    class="bg-gradient-to-br from-geminiRed/30 to-geminiRed/10 backdrop-blur-sm border border-geminiRed/40 rounded-2xl px-8 py-5 text-center shadow-lg hover:shadow-geminiRed/20 transition-all">
+                    <div class="text-4xl font-bold mb-2 text-geminiRed">4</div>
+                    <div class="text-sm font-medium">执行力</div>
+                </div>
             </div>
-            <div
-                class="bg-geminiGreen/20 backdrop-blur-sm border border-geminiGreen/30 rounded-2xl px-8 py-4 text-center">
-                <div class="text-4xl font-bold mb-2">2</div>
-                <div class="text-sm">沟通</div>
-            </div>
-            <div
-                class="bg-geminiYellow/20 backdrop-blur-sm border border-geminiYellow/30 rounded-2xl px-8 py-4 text-center">
-                <div class="text-4xl font-bold mb-2">3</div>
-                <div class="text-sm">信任</div>
-            </div>
-            <div class="bg-geminiRed/20 backdrop-blur-sm border border-geminiRed/30 rounded-2xl px-8 py-4 text-center">
-                <div class="text-4xl font-bold mb-2">4</div>
-                <div class="text-sm">执行力</div>
+
+            <div class="flex justify-center">
+                <a href="#team"
+                    class="btn-glow bg-gradient-to-r from-geminiBlue to-accentPurple hover:from-geminiBlue/90 hover:to-accentPurple/90 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-arrow-down mr-2"></i>探索我们的世界
+                </a>
             </div>
         </div>
 
-        <div class="scroll-indicator">
-            <span class="text-gray-400 animate-bounce">Scroll</span>
-            <div class="scroll-line"></div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-8 h-12 border-2 border-geminiBlue/50 rounded-full flex justify-center">
+                <div class="w-1 h-4 bg-geminiBlue mt-2 animate-pulse"></div>
+            </div>
         </div>
     </section>
 
@@ -866,12 +950,21 @@
     <footer class="footer py-16 bg-gradient-to-t from-darkBg to-cardBg/50 border-t border-cardBg/30">
         <div class="container mx-auto px-4">
             <div class="flex justify-center space-x-8 mb-8">
+                <!-- Github -->
                 <a href="https://github.com/ldzsai" target="_blank"
                     class="text-gray-400 hover:text-white transition transform hover:scale-110">
                     <i class="fab fa-github text-3xl"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                
+                <!-- 微信公众号二维码弹窗 -->
+                <a class="text-gray-400 hover:text-white transition transform hover:scale-110 relative" id="wechat-link">
                     <i class="fab fa-weixin text-3xl"></i>
+                    <div id="wechat-qr-popup" class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden">
+                        <div class="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
+                            <img src="static/wechat-qr.png" alt="微信二维码" class="w-auto h-auto max-w-xs">
+                        </div>
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2 border-8 border-transparent border-t-white"></div>
+                    </div>
                 </a>
             </div>
 
@@ -936,12 +1029,23 @@
         function toggleMobileMenu() {
             isMenuOpen = !isMenuOpen;
             // 修复菜单显示控制逻辑
-            desktopMenu.classList.toggle('hidden');
-            desktopMenu.classList.toggle('md:flex');
-            desktopMenu.classList.toggle('max-h-0');
-            desktopMenu.classList.toggle('max-h-screen');
-            desktopMenu.classList.toggle('py-4');
-            desktopMenu.classList.toggle('overflow-hidden');
+            if (isMenuOpen) {
+                desktopMenu.classList.remove('hidden');
+                desktopMenu.classList.add('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                // 调整菜单项为靠左对齐并确保整行高亮
+                desktopMenu.querySelectorAll('a').forEach(link => {
+                    link.classList.add('justify-start', 'text-left', 'w-full');
+                    link.classList.remove('text-center');
+                });
+            } else {
+                desktopMenu.classList.add('hidden');
+                desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                // 恢复菜单项为居中对齐
+                desktopMenu.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('justify-start', 'text-left', 'w-full');
+                    link.classList.add('text-center');
+                });
+            }
             document.body.classList.toggle('overflow-hidden', isMenuOpen);
         }
 
@@ -950,14 +1054,40 @@
         // 点击外部区域关闭菜单
         document.addEventListener('click', (e) => {
             if (!desktopMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
-                if (isMenuOpen) toggleMobileMenu();
+                if (isMenuOpen) {
+                    // 恢复菜单项为居中对齐
+                    desktopMenu.querySelectorAll('a').forEach(link => {
+                        link.classList.remove('justify-start', 'text-left', 'w-full');
+                        link.classList.add('text-center');
+                    });
+                    desktopMenu.classList.add('hidden');
+                    desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                    isMenuOpen = false;
+                    document.body.classList.remove('overflow-hidden');
+                }
             }
         });
 
         // 窗口重置逻辑
         window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768 && isMenuOpen) {
-                toggleMobileMenu();
+            if (window.innerWidth >= 768) {
+                desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                // 恢复菜单项为居中对齐
+                desktopMenu.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('justify-start', 'text-left', 'w-full');
+                    link.classList.add('text-center');
+                });
+                if (isMenuOpen) {
+                    document.body.classList.remove('overflow-hidden');
+                    isMenuOpen = false;
+                }
+            } else if (isMenuOpen) {
+                desktopMenu.classList.remove('hidden');
+                // 调整菜单项为靠左对齐并确保整行高亮
+                desktopMenu.querySelectorAll('a').forEach(link => {
+                    link.classList.add('justify-start', 'text-left', 'w-full');
+                    link.classList.remove('text-center');
+                });
             }
         });
 
@@ -1061,6 +1191,19 @@
             // footer部分年份自动更新
             const currentYear = new Date().getFullYear()
             document.querySelector('footer p').textContent = `© ${currentYear} 灵动智算(西安)科技有限公司. 保留所有权利。`
+
+            // 微信二维码弹窗功能
+            const wechatLink = document.getElementById('wechat-link');
+            const wechatPopup = document.getElementById('wechat-qr-popup');
+            
+            wechatLink.addEventListener('mouseenter', () => {
+                wechatPopup.classList.remove('hidden');
+            });
+            
+            wechatLink.addEventListener('mouseleave', () => {
+                wechatPopup.classList.add('hidden');
+            });
+
         })
     </script>
 </body>
