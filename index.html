@@ -1,468 +1,488 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>灵动智算</title>
-        <!-- Tailwind CSS CDN -->
-        <script src="js/tailwindcss@3.4.16.js"></script>
-        <!-- Font Awesome CDN -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            geminiBlue: '#4285F4',
-                            geminiGreen: '#34A853',
-                            geminiYellow: '#FBBC05',
-                            geminiRed: '#EA4335',
-                            darkBg: '#0F172A',
-                            cardBg: '#1E293B'
-                        }
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>灵动智算</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="js/tailwindcss@3.4.16.js"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        geminiBlue: '#4285F4',
+                        geminiGreen: '#34A853',
+                        geminiYellow: '#FBBC05',
+                        geminiRed: '#EA4335',
+                        darkBg: '#0F172A',
+                        cardBg: '#1E293B'
                     }
                 }
             }
-        </script>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-            html {
-                /* 平滑滚动过渡 */
-                scroll-behavior: smooth;
+        html {
+            /* 平滑滚动过渡 */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 动态粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
             }
 
-            body {
-                font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-                background-color: #0f172a;
-                color: #e2e8f0;
-                overflow-x: hidden;
-                position: relative;
+            50% {
+                transform: translateY(-20px);
             }
+        }
 
-            /* 动态粒子效果 */
-            .particles {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                pointer-events: none;
+        /* 调整原有home-gradient样式 */
+        .home-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(66, 133, 244, 0.1) 0%, transparent 50%), radial-gradient(circle at bottom right, rgba(52, 168, 83, 0.1) 0%, transparent 50%);
+            z-index: -2;
+            /* 调整为底层 */
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 300px;
+            gap: 24px;
+            padding: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
 
-            .particle {
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-                animation: float 15s infinite linear;
-            }
-
-            @keyframes float {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-20px); }
-            }
-
-            /* 调整原有home-gradient样式 */
-            .home-gradient {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: radial-gradient(circle at top left, rgba(66, 133, 244, 0.1) 0%, transparent 50%), radial-gradient(circle at bottom right, rgba(52, 168, 83, 0.1) 0%, transparent 50%);
-                z-index: -2; /* 调整为底层 */
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
             }
 
             .bento-grid {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                grid-auto-rows: 300px;
-                gap: 24px;
-                padding: 24px;
+                display: block;
             }
 
-            @media (max-width: 1024px) {
-                .bento-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                }
+            .bento-grid .grid-item:nth-child(n+2) {
+                margin-top: 24px;
             }
+        }
 
-            @media (max-width: 640px) {
-                .bento-grid {
-                    grid-template-columns: 1fr;
-                }
+        .grid-item {
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            background-color: #1e293b;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
 
-                .bento-grid {
-                    display: block;
-                }
+        .highlight-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(66, 133, 244, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
 
-                .bento-grid .grid-item:nth-child(n+2) {
-                    margin-top: 24px;
-                }
-            }
+        .grid-item:nth-child(2) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(52, 168, 83, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item {
-                border-radius: 20px;
-                padding: 32px;
-                position: relative;
-                overflow: hidden;
-                background-color: #1e293b;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            }
+        .grid-item:nth-child(3) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(251, 188, 5, 0.15) 0%, transparent 70%);
+        }
 
-            .highlight-gradient {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: radial-gradient(circle at center, rgba(66, 133, 244, 0.15) 0%, transparent 70%);
-                z-index: 0;
-                pointer-events: none;
-            }
+        .grid-item:nth-child(4) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(234, 67, 53, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(2) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(52, 168, 83, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(5) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(101, 73, 255, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(3) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(251, 188, 5, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(6) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(255, 138, 101, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(4) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(234, 67, 53, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(7) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(66, 133, 244, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(5) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(101, 73, 255, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(8) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(52, 168, 83, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(6) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(255, 138, 101, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(9) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(251, 188, 5, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(7) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(66, 133, 244, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(10) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(234, 67, 53, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(8) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(52, 168, 83, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(11) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(101, 73, 255, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(9) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(251, 188, 5, 0.15) 0%, transparent 70%);
-            }
+        .grid-item:nth-child(12) .highlight-gradient {
+            background: radial-gradient(circle at center, rgba(255, 138, 101, 0.15) 0%, transparent 70%);
+        }
 
-            .grid-item:nth-child(10) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(234, 67, 53, 0.15) 0%, transparent 70%);
-            }
+        .big-number {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            opacity: 0.1;
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            z-index: 0;
+        }
 
-            .grid-item:nth-child(11) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(101, 73, 255, 0.15) 0%, transparent 70%);
-            }
+        .big-text {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
 
-            .grid-item:nth-child(12) .highlight-gradient {
-                background: radial-gradient(circle at center, rgba(255, 138, 101, 0.15) 0%, transparent 70%);
-            }
+        .line-chart {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
 
-            .big-number {
-                font-size: 8rem;
-                font-weight: 800;
-                line-height: 1;
-                opacity: 0.1;
-                position: absolute;
-                bottom: -20px;
-                right: 20px;
-                z-index: 0;
-            }
+        .home-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            padding-top: 96px;
+        }
 
-            .big-text {
-                font-size: 3.5rem;
-                font-weight: 700;
-                line-height: 1.1;
-            }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-            .line-chart {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 0;
-            }
+        .scroll-line {
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+            margin-top: 10px;
+        }
 
-            .home-section {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                padding: 2rem;
-                position: relative;
-                overflow: hidden;
-                padding-top: 96px;
-            }
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
 
-            .scroll-indicator {
-                position: absolute;
-                bottom: 2%;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #4285f4, #34a853);
+            border-radius: 2px;
+        }
 
-            .scroll-line {
-                width: 2px;
-                height: 60px;
-                background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
-                margin-top: 10px;
-            }
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-            .section-title {
-                font-size: 3rem;
-                font-weight: 700;
-                margin-bottom: 2rem;
-                position: relative;
-                display: inline-block;
-            }
+        .role-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
 
-            .section-title:after {
-                content: '';
-                position: absolute;
-                bottom: -10px;
-                left: 0;
-                width: 100%;
-                height: 4px;
-                background: linear-gradient(to right, #4285f4, #34a853);
-                border-radius: 2px;
-            }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(66, 133, 244, 0.3);
+        }
 
-            .icon-circle {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 20px;
-                font-size: 32px;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
+        .pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-            .role-card {
-                background: rgba(30, 41, 59, 0.5);
-                border-radius: 16px;
-                padding: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.05);
-                transition: all 0.3s ease;
-            }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
 
-            .role-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-                border-color: rgba(66, 133, 244, 0.3);
-            }
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            min-width: 200px;
+        }
 
-            .pill {
-                display: inline-block;
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 0.8rem;
-                margin-right: 8px;
-                margin-bottom: 8px;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4285f4, #34a853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-            .stats-container {
-                display: flex;
-                justify-content: space-around;
-                margin: 2rem 0;
-                flex-wrap: wrap;
-            }
+        .footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+    </style>
+</head>
 
-            .stat-item {
-                text-align: center;
-                padding: 20px;
-                min-width: 200px;
-            }
+<body>
+    <!-- 动态粒子背景 -->
+    <div class="particles" id="particles"></div>
 
-            .stat-value {
-                font-size: 3.5rem;
-                font-weight: 700;
-                line-height: 1;
-                margin-bottom: 10px;
-                background: linear-gradient(to right, #4285f4, #34a853);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            .footer {
-                padding: 3rem;
-                text-align: center;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                margin-top: 4rem;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- 动态粒子背景 -->
-        <div class="particles" id="particles"></div>
-
-        <!-- Navbar Section -->
-        <nav class="navbar fixed w-full top-0 z-50 border-b border-cardBg backdrop-blur-lg">
-            <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-                <!-- 左侧Logo和标题 -->
-                <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 rounded-lg bg-geminiBlue/80 backdrop-blur-lg flex items-center justify-center">
-                        <!-- <i class="fas fa-robot"></i> -->
-                        <img src="static/ldzsai-logo.png" alt="灵动智算" />
-                    </div>
-                    <span class="text-2xl font-bold">灵动智算</span>
+    <!-- Navbar Section -->
+    <nav class="navbar fixed w-full top-0 z-50 border-b border-cardBg backdrop-blur-lg">
+        <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- 左侧Logo和标题 -->
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 rounded-lg bg-geminiBlue/80 backdrop-blur-lg flex items-center justify-center">
+                    <!-- <i class="fas fa-robot"></i> -->
+                    <img src="static/ldzsai-logo.png" alt="灵动智算" />
                 </div>
-
-                <!-- 右侧导航菜单 -->
-                <div id="desktopMenu" class="hidden md:flex items-center transition-all duration-300 max-h-0 overflow-hidden md:max-h-none md:overflow-visible md:flex-row mobile-menu flex-col w-full bg-darkBg/95 backdrop-blur-lg border-t border-cardBg md:border-0 md:bg-transparent md:backdrop-blur-none absolute left-0 top-full md:static md:w-auto px-6 md:px-0 py-4 md:py-0">
-                    <a href="#home" class="block px-4 py-3 text-gray-300 hover:text-geminiBlue transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-home mr-2"></i>首页 
-                    </a>
-                    <a href="#team" class="block px-4 py-3 text-gray-300 hover:text-geminiGreen transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-users mr-2"></i>团队 
-                    </a>
-                    <a href="#applications" class="block px-4 py-3 text-gray-300 hover:text-geminiYellow transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-shapes mr-2"></i>场景 
-                    </a>
-                    <a href="#projects" class="block px-4 py-3 text-gray-300 hover:text-purple-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-file-alt mr-2"></i>项目 
-                    </a>
-                    <a href="#data" class="block px-4 py-3 text-gray-300 hover:text-pink-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-database mr-2"></i>数据 
-                    </a>
-                    <a href="#contact" class="block px-4 py-3 text-gray-300 hover:text-geminiRed transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
-                        <i class="fas fa-envelope mr-2"></i>联系我们 
-                    </a>
-                </div>
-
-                <!-- 汉堡菜单按钮 -->
-                <button id="mobileMenuButton" class="md:hidden p-2 text-gray-300 hover:text-geminiBlue transition-colors">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Home Section -->
-        <section class="home-section" id="home">
-            <div class="home-gradient"></div>
-            <h1 class="text-6xl md:text-8xl font-bold mb-6">
-                <span class="text-white">灵</span>
-                <span class="text-geminiBlue">动</span>
-                <span class="text-geminiGreen">智</span>
-                <span class="text-geminiYellow">算</span>
-            </h1>
-            <p class="text-3xl md:text-4xl font-bold mb-8 max-w-4xl">
-                <span class="text-white">用智能算法驱动</span>
-                <span class="text-geminiBlue">未来</span>
-            </p>
-            <p class="text-xl text-gray-300 mb-12 max-w-2xl">
-                “用科技赋能未来”，致力于通过创新的AI技术推动社会进步与产业升级，为各行业量身定制高效、智能的解决方案，助力行业实现数字化转型与跨越式发展。
-            </p>
-
-            <div class="flex flex-wrap gap-4 justify-center">
-                <div class="bg-geminiBlue/20 backdrop-blur-sm border border-geminiBlue/30 rounded-2xl px-8 py-4 text-center">
-                    <div class="text-4xl font-bold mb-2">1</div>
-                    <div class="text-sm">创新</div>
-                </div>
-                <div class="bg-geminiGreen/20 backdrop-blur-sm border border-geminiGreen/30 rounded-2xl px-8 py-4 text-center">
-                    <div class="text-4xl font-bold mb-2">2</div>
-                    <div class="text-sm">沟通</div>
-                </div>
-                <div class="bg-geminiYellow/20 backdrop-blur-sm border border-geminiYellow/30 rounded-2xl px-8 py-4 text-center">
-                    <div class="text-4xl font-bold mb-2">3</div>
-                    <div class="text-sm">信任</div>
-                </div>
-                <div class="bg-geminiRed/20 backdrop-blur-sm border border-geminiRed/30 rounded-2xl px-8 py-4 text-center">
-                    <div class="text-4xl font-bold mb-2">4</div>
-                    <div class="text-sm">执行力</div>
-                </div>
+                <span class="text-2xl font-bold">灵动智算</span>
             </div>
 
-            <div class="scroll-indicator">
-                <span class="text-gray-400 animate-bounce">Scroll</span>
-                <div class="scroll-line"></div>
+            <!-- 右侧导航菜单 -->
+            <div id="desktopMenu"
+                class="hidden md:flex items-center transition-all duration-300 max-h-0 overflow-hidden md:max-h-none md:overflow-visible md:flex-row mobile-menu flex-col w-full bg-darkBg/95 backdrop-blur-lg border-t border-cardBg md:border-0 md:bg-transparent md:backdrop-blur-none absolute left-0 top-full md:static md:w-auto px-6 md:px-0 py-4 md:py-0">
+                <a href="#home"
+                    class="block px-4 py-3 text-gray-300 hover:text-geminiBlue transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-home mr-2"></i>首页
+                </a>
+                <a href="#team"
+                    class="block px-4 py-3 text-gray-300 hover:text-geminiGreen transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-users mr-2"></i>团队
+                </a>
+                <a href="#applications"
+                    class="block px-4 py-3 text-gray-300 hover:text-geminiYellow transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-shapes mr-2"></i>场景
+                </a>
+                <a href="#projects"
+                    class="block px-4 py-3 text-gray-300 hover:text-purple-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-file-alt mr-2"></i>项目
+                </a>
+                <a href="#data"
+                    class="block px-4 py-3 text-gray-300 hover:text-pink-500 transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-database mr-2"></i>数据
+                </a>
+                <a href="#contact"
+                    class="block px-4 py-3 text-gray-300 hover:text-geminiRed transition-colors duration-300 hover:bg-white/5 rounded-lg md:hover:scale-105 md:hover:bg-transparent">
+                    <i class="fas fa-envelope mr-2"></i>联系我们
+                </a>
             </div>
-        </section>
 
-        <!-- Team Section -->
-        <section class="container mx-auto py-20 px-4" id="team">
-            <h2 class="section-title text-center">团队介绍</h2>
-            <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">团队由资深设计师和开发者组成，致力于打造卓越的用户体验。</p>
+            <!-- 汉堡菜单按钮 -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-gray-300 hover:text-geminiBlue transition-colors">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
 
-            <div class="bento-grid">
-                <div class="grid-item col-span-2 row-span-1 role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">01</div>
-                    <div class="relative z-10">
-                        <div class="text-geminiBlue text-lg mb-2">CEO、CTO</div>
-                        <div class="big-text">拔剑</div>
-                        <div class="text-gray-300 mt-4 max-w-md">负责公司战略与发展方向，主导技术战略规划与系统架构设计，引领高性能分布式系统研发，攻克关键核心技术难题。</div>
-                    </div>
+    <!-- Home Section -->
+    <section class="home-section" id="home">
+        <div class="home-gradient"></div>
+        <h1 class="text-6xl md:text-8xl font-bold mb-6">
+            <span class="text-white">灵</span>
+            <span class="text-geminiBlue">动</span>
+            <span class="text-geminiGreen">智</span>
+            <span class="text-geminiYellow">算</span>
+        </h1>
+        <p class="text-3xl md:text-4xl font-bold mb-8 max-w-4xl">
+            <span class="text-white">用智能算法驱动</span>
+            <span class="text-geminiBlue">未来</span>
+        </p>
+        <p class="text-xl text-gray-300 mb-12 max-w-2xl">
+            “用科技赋能未来”，致力于通过创新的AI技术推动社会进步与产业升级，为各行业量身定制高效、智能的解决方案，助力行业实现数字化转型与跨越式发展。
+        </p>
+
+        <div class="flex flex-wrap gap-4 justify-center">
+            <div
+                class="bg-geminiBlue/20 backdrop-blur-sm border border-geminiBlue/30 rounded-2xl px-8 py-4 text-center">
+                <div class="text-4xl font-bold mb-2">1</div>
+                <div class="text-sm">创新</div>
+            </div>
+            <div
+                class="bg-geminiGreen/20 backdrop-blur-sm border border-geminiGreen/30 rounded-2xl px-8 py-4 text-center">
+                <div class="text-4xl font-bold mb-2">2</div>
+                <div class="text-sm">沟通</div>
+            </div>
+            <div
+                class="bg-geminiYellow/20 backdrop-blur-sm border border-geminiYellow/30 rounded-2xl px-8 py-4 text-center">
+                <div class="text-4xl font-bold mb-2">3</div>
+                <div class="text-sm">信任</div>
+            </div>
+            <div class="bg-geminiRed/20 backdrop-blur-sm border border-geminiRed/30 rounded-2xl px-8 py-4 text-center">
+                <div class="text-4xl font-bold mb-2">4</div>
+                <div class="text-sm">执行力</div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span class="text-gray-400 animate-bounce">Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="container mx-auto py-20 px-4" id="team">
+        <h2 class="section-title text-center">团队介绍</h2>
+        <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">团队由资深设计师和开发者组成，致力于打造卓越的用户体验。</p>
+
+        <div class="bento-grid">
+            <div class="grid-item col-span-2 row-span-1 role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">01</div>
+                <div class="relative z-10">
+                    <div class="text-geminiBlue text-lg mb-2">CEO、CTO</div>
+                    <div class="big-text">拔剑</div>
+                    <div class="text-gray-300 mt-4 max-w-md">负责公司战略与发展方向，主导技术战略规划与系统架构设计，引领高性能分布式系统研发，攻克关键核心技术难题。</div>
                 </div>
+            </div>
 
-                <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">02</div>
-                    <div class="relative z-10">
-                        <div class="text-geminiGreen text-lg mb-2">市场营销</div>
-                        <div class="big-text">茗菌</div>
-                        <div class="text-gray-300 mt-4">制定全渠道营销策略，通过数据驱动提升品牌影响力与市场渗透率。</div>
-                    </div>
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">02</div>
+                <div class="relative z-10">
+                    <div class="text-geminiGreen text-lg mb-2">市场营销</div>
+                    <div class="big-text">茗菌</div>
+                    <div class="text-gray-300 mt-4">制定全渠道营销策略，通过数据驱动提升品牌影响力与市场渗透率。</div>
                 </div>
+            </div>
 
-                <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">03</div>
-                    <div class="relative z-10">
-                        <div class="text-geminiYellow text-lg mb-2">商务总监</div>
-                        <div class="big-text">不羁</div>
-                        <div class="text-gray-300 mt-4">开拓战略合作渠道，推动产品市场覆盖，构建企业级合作生态体系。</div>
-                    </div>
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">03</div>
+                <div class="relative z-10">
+                    <div class="text-geminiYellow text-lg mb-2">商务总监</div>
+                    <div class="big-text">不羁</div>
+                    <div class="text-gray-300 mt-4">开拓战略合作渠道，推动产品市场覆盖，构建企业级合作生态体系。</div>
                 </div>
+            </div>
 
-                <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">04</div>
-                    <div class="relative z-10">
-                        <div class="text-geminiRed text-lg mb-2">技术总监</div>
-                        <div class="big-text">令狐</div>
-                        <div class="text-gray-300 mt-4">领导技术架构演进与研发创新，推动前沿技术落地，解决高复杂性技术挑战。</div>
-                    </div>
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">04</div>
+                <div class="relative z-10">
+                    <div class="text-geminiRed text-lg mb-2">技术总监</div>
+                    <div class="big-text">令狐</div>
+                    <div class="text-gray-300 mt-4">领导技术架构演进与研发创新，推动前沿技术落地，解决高复杂性技术挑战。</div>
                 </div>
+            </div>
 
-                <div class="grid-item col-span-2 role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">N</div>
-                    <div class="relative z-10">
-                        <div class="text-lg mb-2">期待您</div>
-                        <div class="big-text">加入我们</div>
-                        <div class="text-gray-300 mt-4 max-w-md">加入年轻团队实现共赢，追寻我们的梦想。</div>
-                        <div class="mt-6 p-4 bg-cardBg rounded-xl w-64">
-                            <div class="text-sm font-mono text-gray-400">
-                                <span class="text-geminiBlue">你是一名</span>[AI/软件]的项目经理。<br />
-                                <span class="text-geminiGreen">你是一名</span>[UI/UX]设计师<br />
-                                <span class="text-geminiYellow">你是一名</span>资深开发工程师<br />
-                            </div>
+            <div class="grid-item col-span-2 role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">N</div>
+                <div class="relative z-10">
+                    <div class="text-lg mb-2">期待您</div>
+                    <div class="big-text">加入我们</div>
+                    <div class="text-gray-300 mt-4 max-w-md">加入年轻团队实现共赢，追寻我们的梦想。</div>
+                    <div class="mt-6 p-4 bg-cardBg rounded-xl w-64">
+                        <div class="text-sm font-mono text-gray-400">
+                            <span class="text-geminiBlue">你是一名</span>[AI/软件]的项目经理。<br />
+                            <span class="text-geminiGreen">你是一名</span>[UI/UX]设计师<br />
+                            <span class="text-geminiYellow">你是一名</span>资深开发工程师<br />
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Quick Tips -->
-                <!-- <div class="grid-item">
+            <!-- Quick Tips -->
+            <!-- <div class="grid-item">
                     <div class="highlight-gradient"></div>
                     <div class="big-number">05</div>
                     <div class="relative z-10">
@@ -545,474 +565,483 @@
                         <div class="text-gray-300">用户尝试的提示通常少于9个词，但最有效的提示平均为21个词。</div>
                     </div>
                 </div> -->
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Applications Section -->
-        <section class="container mx-auto py-20 px-4" id="applications">
-            <h2 class="section-title text-center">应用场景</h2>
-            <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">焦距前沿技术，提供创新且高效的数字化解决方案。</p>
+    <!-- Applications Section -->
+    <section class="container mx-auto py-20 px-4" id="applications">
+        <h2 class="section-title text-center">应用场景</h2>
+        <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">焦距前沿技术，提供创新且高效的数字化解决方案。</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
-                            <i class="fas fa-microchip text-geminiBlue"></i>
-                        </div>
-                        <h3 class="text-xl font-bold ml-3">物联网</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
+                        <i class="fas fa-microchip text-geminiBlue"></i>
                     </div>
-                    <p class="text-gray-300 mb-4">构建智能物联生态系统，通过边缘计算与5G技术实现设备实时互联。工业物联网平台可采集多维度设备数据，结合AI分析实现预测性维护，降低运维成本30%以上。</p>
-                    <div class="mt-4">
-                        <div class="pill">IOT</div>
-                        <div class="pill">5G</div>
-                        <div class="pill">嵌入式</div>
-                        <div class="pill">...</div>
-                    </div>
+                    <h3 class="text-xl font-bold ml-3">物联网</h3>
                 </div>
-
-                <div class="role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-geminiGreen/20 flex items-center justify-center">
-                            <i class="fas fa-robot text-geminiGreen"></i>
-                        </div>
-                        <h3 class="text-xl font-bold ml-3">AI赋能</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">打造智能决策系统，基于深度学习算法实现图像识别、自然语言处理与智能推荐，助力企业提升运营效率。</p>
-                    <div class="mt-4">
-                        <div class="pill">AIGC</div>
-                        <div class="pill">Comfyui</div>
-                        <div class="pill">语音合成</div>
-                        <div class="pill">人脸识别</div>
-                        <div class="pill">...</div>
-                    </div>
-                </div>
-
-                <div class="role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-geminiYellow/20 flex items-center justify-center">
-                            <i class="fas fa-link text-geminiYellow"></i>
-                        </div>
-                        <h3 class="text-xl font-bold ml-3">区块链</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">构建分布式账本系统，实现供应链金融、数字身份认证等场景的可信数据存证。联盟链架构支持多方协同，数据不可篡改，满足金融、政务等领域合规性要求。</p>
-                    <div class="mt-4">
-                        <div class="pill">分布式计算</div>
-                        <div class="pill">可信网络</div>
-                        <div class="pill">...</div>
-                    </div>
+                <p class="text-gray-300 mb-4">
+                    构建智能物联生态系统，通过边缘计算与5G技术实现设备实时互联。工业物联网平台可采集多维度设备数据，结合AI分析实现预测性维护，降低运维成本30%以上。</p>
+                <div class="mt-4">
+                    <div class="pill">IOT</div>
+                    <div class="pill">5G</div>
+                    <div class="pill">嵌入式</div>
+                    <div class="pill">...</div>
                 </div>
             </div>
 
-            <div class="mt-16 text-center">
-                <a href="#home" class="inline-block bg-geminiBlue hover:bg-geminiBlue/90 text-white font-medium py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
-                    探索更多
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section class="container mx-auto py-20 px-4" id="projects">
-            <h2 class="section-title text-center">项目案例</h2>
-            <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">创新设计优化用户体验与视觉呈现，技术突破助力用户需求场景高效落地。</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
-                            <i class="fas fa-graduation-cap text-geminiBlue"></i>
-                        </div>
-                        <h3 class="text-xl font-bold ml-3">智慧校园</h3>
+            <div class="role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-geminiGreen/20 flex items-center justify-center">
+                        <i class="fas fa-robot text-geminiGreen"></i>
                     </div>
-                    <p class="text-gray-300 mb-4">协助家长实时监测学生在校情况，通过数字化形式动态展示，智能推送学生上课状态，如是否迟到，利用电子围栏检测学生上课期间是否在校园内。</p>
-                    <div class="mt-4">
-                        <div class="pill">分布式</div>
-                        <div class="pill">Gateway</div>
-                        <div class="pill">RabbitMQ</div>
-                        <div class="pill">Redis</div>
-                        <div class="pill">分布式缓存</div>
-                        <div class="pill">...</div>
-                    </div>
+                    <h3 class="text-xl font-bold ml-3">AI赋能</h3>
                 </div>
-
-                <div class="role-card hover:border-geminiBlue/50 transition-colors">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
-                            <i class="fas fa-spider text-geminiBlue"></i>
-                        </div>
-                        <h3 class="text-xl font-bold ml-3">智能分布式爬虫系统</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4">以图形化方式定义爬虫流程，无需代码即可实现一个爬虫流程，不仅限爬虫，也可用于WEB自动化测试</p>
-                    <div class="mt-4">
-                        <div class="pill">分布式</div>
-                        <div class="pill">爬虫</div>
-                        <div class="pill">Selenium</div>
-                        <div class="pill">WEB自动化测试</div>
-                        <div class="pill">...</div>
-                    </div>
+                <p class="text-gray-300 mb-4">打造智能决策系统，基于深度学习算法实现图像识别、自然语言处理与智能推荐，助力企业提升运营效率。</p>
+                <div class="mt-4">
+                    <div class="pill">AIGC</div>
+                    <div class="pill">Comfyui</div>
+                    <div class="pill">语音合成</div>
+                    <div class="pill">人脸识别</div>
+                    <div class="pill">...</div>
                 </div>
             </div>
 
-            <div class="mt-16 text-center">
-                <a href="#home" class="inline-block bg-geminiBlue hover:bg-geminiBlue/90 text-white font-medium py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
-                    查看更多案例
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Data Section -->
-        <section class="container mx-auto py-20 px-4" id="data">
-            <h2 class="section-title text-center">数据分析</h2>
-            <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">灵动智算运营数据，让您更快速的以数据指标了解我们</p>
-
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-value">21</div>
-                    <div class="text-lg font-medium">成立天数</div>
-                    <div class="text-gray-400 mt-2">公司自2025年06月10日创办至今</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-value">3</div>
-                    <div class="text-lg font-medium">服务客户</div>
-                    <div class="text-gray-400 mt-2">截至目前服务客户数</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-value">6</div>
-                    <div class="text-lg font-medium">承接项目</div>
-                    <div class="text-gray-400 mt-2">截止目前承接项目数</div>
-                </div>
-
-                <div class="stat-item">
-                    <div style="display: flex; justify-content: center; align-items: center">
-                        <div class="stat-value">56</div>
-                        <div>%</div>
+            <div class="role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-geminiYellow/20 flex items-center justify-center">
+                        <i class="fas fa-link text-geminiYellow"></i>
                     </div>
-                    <div class="text-lg font-medium">效率提升</div>
-                    <div class="text-gray-400 mt-2">协助企业平均提升效率</div>
+                    <h3 class="text-xl font-bold ml-3">区块链</h3>
+                </div>
+                <p class="text-gray-300 mb-4">构建分布式账本系统，实现供应链金融、数字身份认证等场景的可信数据存证。联盟链架构支持多方协同，数据不可篡改，满足金融、政务等领域合规性要求。</p>
+                <div class="mt-4">
+                    <div class="pill">分布式计算</div>
+                    <div class="pill">可信网络</div>
+                    <div class="pill">...</div>
                 </div>
             </div>
+        </div>
 
-            <div class="max-w-4xl mx-auto mt-16 p-8 bg-cardBg rounded-3xl role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="text-center mb-8">
-                    <div class="icon-circle inline-flex">
-                        <i class="fas fa-lightbulb"></i>
+        <div class="mt-16 text-center">
+            <a href="#home"
+                class="inline-block bg-geminiBlue hover:bg-geminiBlue/90 text-white font-medium py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                探索更多
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="container mx-auto py-20 px-4" id="projects">
+        <h2 class="section-title text-center">项目案例</h2>
+        <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">创新设计优化用户体验与视觉呈现，技术突破助力用户需求场景高效落地。</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-geminiBlue"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mt-4">灵感、与客户沟通、执行力。</h3>
+                    <h3 class="text-xl font-bold ml-3">智慧校园</h3>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="p-6 bg-darkBg rounded-xl">
-                        <div class="text-geminiBlue text-lg mb-2 flex items-center">
-                            <i class="fas fa-cut mr-2"></i>
-                            <span>分解任务</span>
-                        </div>
-                        <p class="text-gray-300">按照最终项目需求开始分解任务，逐一消化攻破。</p>
-                    </div>
-
-                    <div class="p-6 bg-darkBg rounded-xl">
-                        <div class="text-geminiGreen text-lg mb-2 flex items-center">
-                            <i class="fas fa-ruler mr-2"></i>
-                            <span>制定计划</span>
-                        </div>
-                        <p class="text-gray-300">团队按照具体任务制定详细计划，确保项目高效推进与目标达成。</p>
-                    </div>
-
-                    <div class="p-6 bg-darkBg rounded-xl">
-                        <div class="text-geminiYellow text-lg mb-2 flex items-center">
-                            <i class="fas fa-theater-masks mr-2"></i>
-                            <span>分工明确</span>
-                        </div>
-                        <p class="text-gray-300">团队分工明确，各司其职，高效协作推进项目落地。</p>
-                    </div>
-
-                    <div class="p-6 bg-darkBg rounded-xl">
-                        <div class="text-geminiRed text-lg mb-2 flex items-center">
-                            <i class="fas fa-comments mr-2"></i>
-                            <span>迭代改进</span>
-                        </div>
-                        <p class="text-gray-300">团队与客户持续沟通，不断迭代优化方案，确保精准满足需求。</p>
-                    </div>
+                <p class="text-gray-300 mb-4">协助家长实时监测学生在校情况，通过数字化形式动态展示，智能推送学生上课状态，如是否迟到，利用电子围栏检测学生上课期间是否在校园内。</p>
+                <div class="mt-4">
+                    <div class="pill">分布式</div>
+                    <div class="pill">Gateway</div>
+                    <div class="pill">RabbitMQ</div>
+                    <div class="pill">Redis</div>
+                    <div class="pill">分布式缓存</div>
+                    <div class="pill">...</div>
                 </div>
             </div>
-        </section>
 
-        <!-- Contact Section -->
-        <section class="container mx-auto py-20 px-4" id="contact">
-            <h2 class="section-title text-center mb-4">即刻联系</h2>
-            <p class="text-xl text-center text-gray-300 max-w-2xl mx-auto mb-20">欢迎通过以下方式与我们取得联系，24小时内必回复，期待与您合作！</p>
+            <div class="role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-geminiBlue/20 flex items-center justify-center">
+                        <i class="fas fa-spider text-geminiBlue"></i>
+                    </div>
+                    <h3 class="text-xl font-bold ml-3">智能分布式爬虫系统</h3>
+                </div>
+                <p class="text-gray-300 mb-4">以图形化方式定义爬虫流程，无需代码即可实现一个爬虫流程，不仅限爬虫，也可用于WEB自动化测试</p>
+                <div class="mt-4">
+                    <div class="pill">分布式</div>
+                    <div class="pill">爬虫</div>
+                    <div class="pill">Selenium</div>
+                    <div class="pill">WEB自动化测试</div>
+                    <div class="pill">...</div>
+                </div>
+            </div>
+        </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-                <!-- 左侧联系信息 -->
-                <div class="lg:col-span-2 space-y-8">
-                    <div class="role-card p-8 hover:border-geminiBlue/50 transition-colors">
-                        <div class="flex items-center mb-6">
-                            <div class="w-14 h-14 rounded-2xl bg-geminiBlue/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-comments text-2xl text-geminiBlue"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-xl font-bold mb-2">即时沟通</h3>
-                                <div class="space-y-2 text-gray-300">
-                                    <!-- <p class="flex items-center">
+        <div class="mt-16 text-center">
+            <a href="#home"
+                class="inline-block bg-geminiBlue hover:bg-geminiBlue/90 text-white font-medium py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+                查看更多案例
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Data Section -->
+    <section class="container mx-auto py-20 px-4" id="data">
+        <h2 class="section-title text-center">数据分析</h2>
+        <p class="text-xl text-center text-gray-300 max-w-3xl mx-auto mb-16">灵动智算运营数据，让您更快速的以数据指标了解我们</p>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value">21</div>
+                <div class="text-lg font-medium">成立天数</div>
+                <div class="text-gray-400 mt-2">公司自2025年06月10日创办至今</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="text-lg font-medium">服务客户</div>
+                <div class="text-gray-400 mt-2">截至目前服务客户数</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-value">6</div>
+                <div class="text-lg font-medium">承接项目</div>
+                <div class="text-gray-400 mt-2">截止目前承接项目数</div>
+            </div>
+
+            <div class="stat-item">
+                <div style="display: flex; justify-content: center; align-items: center">
+                    <div class="stat-value">56</div>
+                    <div>%</div>
+                </div>
+                <div class="text-lg font-medium">效率提升</div>
+                <div class="text-gray-400 mt-2">协助企业平均提升效率</div>
+            </div>
+        </div>
+
+        <div
+            class="max-w-4xl mx-auto mt-16 p-8 bg-cardBg rounded-3xl role-card hover:border-geminiBlue/50 transition-colors">
+            <div class="text-center mb-8">
+                <div class="icon-circle inline-flex">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="text-2xl font-bold mt-4">灵感、与客户沟通、执行力。</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-darkBg rounded-xl">
+                    <div class="text-geminiBlue text-lg mb-2 flex items-center">
+                        <i class="fas fa-cut mr-2"></i>
+                        <span>分解任务</span>
+                    </div>
+                    <p class="text-gray-300">按照最终项目需求开始分解任务，逐一消化攻破。</p>
+                </div>
+
+                <div class="p-6 bg-darkBg rounded-xl">
+                    <div class="text-geminiGreen text-lg mb-2 flex items-center">
+                        <i class="fas fa-ruler mr-2"></i>
+                        <span>制定计划</span>
+                    </div>
+                    <p class="text-gray-300">团队按照具体任务制定详细计划，确保项目高效推进与目标达成。</p>
+                </div>
+
+                <div class="p-6 bg-darkBg rounded-xl">
+                    <div class="text-geminiYellow text-lg mb-2 flex items-center">
+                        <i class="fas fa-theater-masks mr-2"></i>
+                        <span>分工明确</span>
+                    </div>
+                    <p class="text-gray-300">团队分工明确，各司其职，高效协作推进项目落地。</p>
+                </div>
+
+                <div class="p-6 bg-darkBg rounded-xl">
+                    <div class="text-geminiRed text-lg mb-2 flex items-center">
+                        <i class="fas fa-comments mr-2"></i>
+                        <span>迭代改进</span>
+                    </div>
+                    <p class="text-gray-300">团队与客户持续沟通，不断迭代优化方案，确保精准满足需求。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="container mx-auto py-20 px-4" id="contact">
+        <h2 class="section-title text-center mb-4">即刻联系</h2>
+        <p class="text-xl text-center text-gray-300 max-w-2xl mx-auto mb-20">欢迎通过以下方式与我们取得联系，24小时内必回复，期待与您合作！</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+            <!-- 左侧联系信息 -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="role-card p-8 hover:border-geminiBlue/50 transition-colors">
+                    <div class="flex items-center mb-6">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-geminiBlue/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-comments text-2xl text-geminiBlue"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold mb-2">即时沟通</h3>
+                            <div class="space-y-2 text-gray-300">
+                                <!-- <p class="flex items-center">
                                         <i class="fas fa-phone-alt w-6"></i>
                                         +86 888 8888 8888
                                     </p> -->
-                                    <p class="flex items-center">
-                                        <i class="fas fa-envelope w-6"></i>
-                                        contact@ldzsai.com
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="role-card p-8 hover:border-geminiGreen/50 transition-colors">
-                        <div class="flex items-center mb-6">
-                            <div class="w-14 h-14 rounded-2xl bg-geminiGreen/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-map-marked-alt text-2xl text-geminiGreen"></i>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-xl font-bold mb-2">到访指引</h3>
-                                <div class="text-gray-300 space-y-2">
-                                    <p><i class="fas fa-building w-6"></i>陕西省西安市高新区天谷七路88号新加坡腾飞科汇城6层601室-675</p>
-                                    <p><i class="fas fa-clock w-6"></i>周一至周五 9:00-18:00</p>
-                                </div>
+                                <p class="flex items-center">
+                                    <i class="fas fa-envelope w-6"></i>
+                                    contact@ldzsai.com
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 右侧表单 -->
-                <div class="role-card p-8 lg:col-span-3 hover:border-geminiYellow/50 transition-colors">
-                    <form class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">您的姓名 <span class="text-geminiRed">*</span></label>
-                                <input
-                                    type="text"
-                                    class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
-                                    placeholder="请输入真实姓名"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">联系电话 <span class="text-geminiRed">*</span></label>
-                                <input
-                                    type="tel"
-                                    class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
-                                    placeholder="请输入手机号码"
-                                    required
-                                />
+                <div class="role-card p-8 hover:border-geminiGreen/50 transition-colors">
+                    <div class="flex items-center mb-6">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-geminiGreen/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-map-marked-alt text-2xl text-geminiGreen"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold mb-2">到访指引</h3>
+                            <div class="text-gray-300 space-y-2">
+                                <p><i class="fas fa-building w-6"></i>陕西省西安市高新区天谷七路88号新加坡腾飞科汇城6层601室-675</p>
+                                <p><i class="fas fa-clock w-6"></i>周一至周五 9:00-18:00</p>
                             </div>
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">咨询类型 <span class="text-geminiRed">*</span></label>
-                            <select class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 text-gray-300 appearance-none" required>
-                                <option value="">请选择咨询类型</option>
-                                <option>产品咨询</option>
-                                <option>技术支持</option>
-                                <option>商务合作</option>
-                                <option>其他事项</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">详细内容 <span class="text-geminiRed">*</span></label>
-                            <textarea
-                                class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
-                                rows="5"
-                                placeholder="请详细描述您的需求..."
-                                required
-                            ></textarea>
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="w-full bg-gradient-to-r from-geminiBlue to-geminiGreen hover:from-geminiBlue/90 hover:to-geminiGreen/90 text-white font-medium py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-lg hover:shadow-geminiBlue/20"
-                        >
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            立即发送
-                        </button>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Footer Section -->
-        <footer class="footer">
-            <div class="flex justify-center space-x-8 mb-6">
-                <a href="https://github.com/ldzsai" target="_blank" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-github text-2xl"></i>
+            <!-- 右侧表单 -->
+            <div class="role-card p-8 lg:col-span-3 hover:border-geminiYellow/50 transition-colors">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">您的姓名 <span
+                                    class="text-geminiRed">*</span></label>
+                            <input type="text"
+                                class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
+                                placeholder="请输入真实姓名" required />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">联系电话 <span
+                                    class="text-geminiRed">*</span></label>
+                            <input type="tel"
+                                class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
+                                placeholder="请输入手机号码" required />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">咨询类型 <span
+                                class="text-geminiRed">*</span></label>
+                        <select
+                            class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 text-gray-300 appearance-none"
+                            required>
+                            <option value="">请选择咨询类型</option>
+                            <option>产品咨询</option>
+                            <option>技术支持</option>
+                            <option>商务合作</option>
+                            <option>其他事项</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">详细内容 <span
+                                class="text-geminiRed">*</span></label>
+                        <textarea
+                            class="w-full bg-darkBg/50 rounded-lg px-4 py-3 border border-cardBg focus:border-geminiBlue focus:ring-2 focus:ring-geminiBlue/30 placeholder-gray-500 transition-all"
+                            rows="5" placeholder="请详细描述您的需求..." required></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-geminiBlue to-geminiGreen hover:from-geminiBlue/90 hover:to-geminiGreen/90 text-white font-medium py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-lg hover:shadow-geminiBlue/20">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        立即发送
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer py-16 bg-gradient-to-t from-darkBg to-cardBg/50 border-t border-cardBg/30">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-8 mb-8">
+                <a href="https://github.com/ldzsai" target="_blank"
+                    class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                    <i class="fab fa-github text-3xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition transform hover:scale-110">
+                    <i class="fab fa-weixin text-3xl"></i>
                 </a>
             </div>
 
-            <p class="text-gray-400 mb-4">© 2025 灵动智算(西安)科技有限公司 . 保留所有权利。</p>
-            <p class="text-gray-500 text-sm max-w-2xl mx-auto">
+            <p class="text-gray-400 text-center mb-6">© <span id="currentYear">2025</span> 灵动智算(西安)科技有限公司 . 保留所有权利。</p>
+            <p class="text-gray-500 text-sm max-w-2xl mx-auto text-center mb-8">
                 “用科技赋能未来”，致力于通过创新的AI技术推动社会进步与产业升级，为各行业量身定制高效、智能的解决方案，助力行业实现数字化转型与跨越式发展。
             </p>
 
-            <!-- 新增备案信息 -->
-            <div class="mt-4 flex flex-wrap justify-center items-center gap-4">
+            <!-- 备案信息 -->
+            <div class="mt-6 flex flex-wrap justify-center items-center gap-4">
                 <img src="static/beian-logo.png" alt="备案图标" class="w-4 h-4" />
-                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61019002003337" target="_blank" class="flex items-center space-x-2 text-gray-400 hover:text-white transition">
+                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=61019002003337" target="_blank"
+                    class="flex items-center space-x-2 text-gray-400 hover:text-white transition">
                     陕公网安备61019002003337号
                 </a>
-                <a href="https://beian.miit.gov.cn" target="_blank" class="flex items-center space-x-2 text-gray-400 hover:text-white transition">
+                <a href="https://beian.miit.gov.cn" target="_blank"
+                    class="flex items-center space-x-2 text-gray-400 hover:text-white transition">
                     陕ICP备2025070934号-1
                 </a>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <script>
-            // 创建动态粒子背景
-            function createParticles() {
-                const particlesContainer = document.getElementById('particles');
-                const particleCount = Math.min(50, Math.floor(window.innerWidth / 20));
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    
-                    // 随机大小
-                    const size = Math.random() * 4 + 1;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
-                    
-                    // 随机位置
-                    particle.style.left = `${Math.random() * 100}%`;
-                    particle.style.top = `${Math.random() * 100}%`;
-                    
-                    // 随机动画延迟和持续时间
-                    particle.style.animationDelay = `${Math.random() * 15}s`;
-                    particle.style.animationDuration = `${15 + Math.random() * 20}s`;
-                    
-                    // 随机颜色
-                    const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6'];
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    particle.style.background = randomColor;
-                    particle.style.boxShadow = `0 0 ${10 + Math.random() * 20}px ${randomColor}`;
-                    
-                    particlesContainer.appendChild(particle);
+    <script>
+        // 创建动态粒子背景
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = Math.min(50, Math.floor(window.innerWidth / 20));
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // 随机大小
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+
+                // 随机动画延迟和持续时间
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${15 + Math.random() * 20}s`;
+
+                // 随机颜色
+                const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = randomColor;
+                particle.style.boxShadow = `0 0 ${10 + Math.random() * 20}px ${randomColor}`;
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 修改后的移动菜单交互逻辑
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const desktopMenu = document.getElementById('desktopMenu');
+        let isMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            // 修复菜单显示控制逻辑
+            desktopMenu.classList.toggle('hidden');
+            desktopMenu.classList.toggle('md:flex');
+            desktopMenu.classList.toggle('max-h-0');
+            desktopMenu.classList.toggle('max-h-screen');
+            desktopMenu.classList.toggle('py-4');
+            desktopMenu.classList.toggle('overflow-hidden');
+            document.body.classList.toggle('overflow-hidden', isMenuOpen);
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
+        // 点击外部区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!desktopMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                if (isMenuOpen) toggleMobileMenu();
+            }
+        });
+
+        // 窗口重置逻辑
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && isMenuOpen) {
+                toggleMobileMenu();
+            }
+        });
+
+        // 保持与现有滚动动画的兼容
+        const originalObserver = IntersectionObserver;
+        window.IntersectionObserver = class extends originalObserver {
+            observe(target) {
+                if (!target.classList.contains('mobile-menu')) {
+                    super.observe(target);
                 }
             }
+        };
 
-            // 修改后的移动菜单交互逻辑
-            const mobileMenuButton = document.getElementById('mobileMenuButton');
-            const desktopMenu = document.getElementById('desktopMenu');
-            let isMenuOpen = false;
+        // 添加滚动动画效果
+        document.addEventListener('DOMContentLoaded', function () {
+            // 创建粒子背景
+            createParticles();
 
-            function toggleMobileMenu() {
-                isMenuOpen = !isMenuOpen;
-                // 修复菜单显示控制逻辑
-                desktopMenu.classList.toggle('hidden');
-                desktopMenu.classList.toggle('md:flex');
-                desktopMenu.classList.toggle('max-h-0');
-                desktopMenu.classList.toggle('max-h-screen');
-                desktopMenu.classList.toggle('py-4');
-                desktopMenu.classList.toggle('overflow-hidden');
-                document.body.classList.toggle('overflow-hidden', isMenuOpen);
+            // 页面刷新自动跳转锚点处
+            const hash = window.location.hash
+            if (hash) {
+                window.location.hash = ''
+                window.location.hash = hash
             }
 
-            mobileMenuButton.addEventListener('click', toggleMobileMenu);
+            // 公司成立天数
+            const companyDate = new Date('2025-06-10')
+            const differenceInMilliseconds = Date.now() - companyDate.getTime()
+            const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24))
+            document.querySelector('.stats-container .stat-item:first-child .stat-value').textContent = differenceInDays
+            document.querySelector('.stats-container .stat-item:first-child div:last-child').textContent = `公司自${companyDate.getFullYear()}年${companyDate.getMonth() + 1}月${companyDate.getDate()}日创办至今`
 
-            // 点击外部区域关闭菜单
-            document.addEventListener('click', (e) => {
-                if (!desktopMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
-                    if (isMenuOpen) toggleMobileMenu();
-                }
-            });
-
-            // 窗口重置逻辑
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768 && isMenuOpen) {
-                    toggleMobileMenu();
-                }
-            });
-
-            // 保持与现有滚动动画的兼容
-            const originalObserver = IntersectionObserver;
-            window.IntersectionObserver = class extends originalObserver {
-                observe(target) {
-                    if (!target.classList.contains('mobile-menu')) {
-                        super.observe(target);
+            // 数字递增动画函数
+            const animateValue = (element, start, end, duration) => {
+                let startTimestamp = null
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1)
+                    element.textContent = Math.floor(progress * (end - start) + start)
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step)
                     }
                 }
-            };
+                window.requestAnimationFrame(step)
+            }
 
-            // 添加滚动动画效果
-            document.addEventListener('DOMContentLoaded', function () {
-                // 创建粒子背景
-                createParticles();
-                
-                // 页面刷新自动跳转锚点处
-                const hash = window.location.hash
-                if (hash) {
-                    window.location.hash = ''
-                    window.location.hash = hash
-                }
-
-                // 公司成立天数
-                const companyDate = new Date('2025-06-10')
-                const differenceInMilliseconds = Date.now() - companyDate.getTime()
-                const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24))
-                document.querySelector('.stats-container .stat-item:first-child .stat-value').textContent = differenceInDays
-                document.querySelector('.stats-container .stat-item:first-child div:last-child').textContent = `公司自${companyDate.getFullYear()}年${companyDate.getMonth() + 1}月${companyDate.getDate()}日创办至今`
-
-                // 数字递增动画函数
-                const animateValue = (element, start, end, duration) => {
-                    let startTimestamp = null
-                    const step = (timestamp) => {
-                        if (!startTimestamp) startTimestamp = timestamp
-                        const progress = Math.min((timestamp - startTimestamp) / duration, 1)
-                        element.textContent = Math.floor(progress * (end - start) + start)
-                        if (progress < 1) {
-                            window.requestAnimationFrame(step)
+            // 观察统计数字元素
+            const statObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const statValue = entry.target.querySelector('.stat-value')
+                            const target = parseInt(statValue.innerText)
+                            animateValue(statValue, 0, target, 800)
+                            statObserver.unobserve(entry.target)
                         }
-                    }
-                    window.requestAnimationFrame(step)
-                }
+                    })
+                },
+                { threshold: 0.5 }
+            )
+            document.querySelectorAll('#data .stat-item').forEach((item) => {
+                statObserver.observe(item)
+            })
 
-                // 观察统计数字元素
-                const statObserver = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                const statValue = entry.target.querySelector('.stat-value')
-                                const target = parseInt(statValue.innerText)
-                                animateValue(statValue, 0, target, 800)
-                                statObserver.unobserve(entry.target)
-                            }
-                        })
-                    },
-                    { threshold: 0.5 }
-                )
-                document.querySelectorAll('#data .stat-item').forEach((item) => {
-                    statObserver.observe(item)
-                })
+            // 滚动动画代码
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-fadeInUp')
+                        }
+                    })
+                },
+                { threshold: 0.1 }
+            )
 
-                // 滚动动画代码
-                const observer = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('animate-fadeInUp')
-                            }
-                        })
-                    },
-                    { threshold: 0.1 }
-                )
+            document.querySelectorAll('.grid-item, .role-card, .stat-item').forEach((item) => {
+                item.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700')
+                observer.observe(item)
+            })
 
-                document.querySelectorAll('.grid-item, .role-card, .stat-item').forEach((item) => {
-                    item.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700')
-                    observer.observe(item)
-                })
-
-                // 添加自定义动画类
-                const style = document.createElement('style')
-                style.textContent = `
+            // 添加自定义动画类
+            const style = document.createElement('style')
+            style.textContent = `
                 @keyframes fadeInUp {
                     from {
                         opacity: 0;
@@ -1027,12 +1056,13 @@
                     animation: fadeInUp 0.6s ease forwards;
                 }
             `
-                document.head.appendChild(style)
+            document.head.appendChild(style)
 
-                // footer部分年份自动更新
-                const currentYear = new Date().getFullYear()
-                document.querySelector('footer p').textContent = `© ${currentYear} 灵动智算(西安)科技有限公司. 保留所有权利。`
-            })
-        </script>
-    </body>
+            // footer部分年份自动更新
+            const currentYear = new Date().getFullYear()
+            document.querySelector('footer p').textContent = `© ${currentYear} 灵动智算(西安)科技有限公司. 保留所有权利。`
+        })
+    </script>
+</body>
+
 </html>
