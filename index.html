@@ -37,53 +37,31 @@
                 background-color: #0f172a;
                 color: #e2e8f0;
                 overflow-x: hidden;
+                position: relative;
             }
 
-            /* 新增粒子动画样式 */
-            .home-section::before {
-                content: '';
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 20%, transparent 25.5%);
-                background-size: 32px 32px;
-                transform: translateZ(0);
-                animation: lightFlow 20s linear infinite;
-                opacity: 0.1;
-                z-index: -1;
-            }
-
-            .home-section::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
+            /* 动态粒子效果 */
+            .particles {
+                position: fixed;
+                top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: repeating-linear-gradient(to right, rgba(66, 133, 244, 0.1) 0px, rgba(66, 133, 244, 0.1) 4px, transparent 4px, transparent 20px);
-                animation: particleMove 8s linear infinite;
                 z-index: -1;
+                pointer-events: none;
             }
 
-            /* 新增动画关键帧 */
-            @keyframes lightFlow {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
+            .particle {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.5);
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+                animation: float 15s infinite linear;
             }
 
-            @keyframes particleMove {
-                0% {
-                    background-position: 0 0;
-                }
-                100% {
-                    background-position: 100px 100px;
-                }
+            @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-20px); }
             }
 
             /* 调整原有home-gradient样式 */
@@ -334,6 +312,9 @@
         </style>
     </head>
     <body>
+        <!-- 动态粒子背景 -->
+        <div class="particles" id="particles"></div>
+
         <!-- Navbar Section -->
         <nav class="navbar fixed w-full top-0 z-50 border-b border-cardBg backdrop-blur-lg">
             <div class="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -886,6 +867,38 @@
         </footer>
 
         <script>
+            // 创建动态粒子背景
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = Math.min(50, Math.floor(window.innerWidth / 20));
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // 随机大小
+                    const size = Math.random() * 4 + 1;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // 随机位置
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    
+                    // 随机动画延迟和持续时间
+                    particle.style.animationDelay = `${Math.random() * 15}s`;
+                    particle.style.animationDuration = `${15 + Math.random() * 20}s`;
+                    
+                    // 随机颜色
+                    const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.background = randomColor;
+                    particle.style.boxShadow = `0 0 ${10 + Math.random() * 20}px ${randomColor}`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
             // 修改后的移动菜单交互逻辑
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const desktopMenu = document.getElementById('desktopMenu');
@@ -931,6 +944,9 @@
 
             // 添加滚动动画效果
             document.addEventListener('DOMContentLoaded', function () {
+                // 创建粒子背景
+                createParticles();
+                
                 // 页面刷新自动跳转锚点处
                 const hash = window.location.hash
                 if (hash) {
