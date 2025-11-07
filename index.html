@@ -84,19 +84,63 @@
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            animation: float 15s infinite linear;
+            animation: float 5s infinite ease-in-out;
+            opacity: 0.7;
         }
 
         @keyframes float {
 
             0%,
             100% {
-                transform: translateY(0);
+                transform: translateY(0) translateX(0);
+                opacity: 0.3;
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+
+            25% {
+                transform: translateY(-30px) translateX(20px);
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.6);
             }
 
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-60px) translateX(0);
+                opacity: 0.4;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.4);
+            }
+
+            75% {
+                transform: translateY(-30px) translateX(-20px);
+                opacity: 0.9;
+                box-shadow: 0 0 18px rgba(255, 255, 255, 0.9), 0 0 28px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* 添加一个新的动画变体 */
+        @keyframes floatReverse {
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.4;
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 12px rgba(255, 255, 255, 0.3);
+            }
+
+            25% {
+                transform: translateY(30px) translateX(-25px);
+                opacity: 0.9;
+                box-shadow: 0 0 22px rgba(255, 255, 255, 1), 0 0 32px rgba(255, 255, 255, 0.6);
+            }
+
+            50% {
+                transform: translateY(60px) translateX(0);
+                opacity: 0.3;
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.5), 0 0 22px rgba(255, 255, 255, 0.3);
+            }
+
+            75% {
+                transform: translateY(30px) translateX(25px);
+                opacity: 1;
+                box-shadow: 0 0 25px rgba(255, 255, 255, 1), 0 0 35px rgba(255, 255, 255, 0.7);
             }
         }
 
@@ -1007,15 +1051,22 @@
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
 
-                // 随机动画延迟和持续时间
-                particle.style.animationDelay = `${Math.random() * 15}s`;
-                particle.style.animationDuration = `${15 + Math.random() * 20}s`;
+                // 随机动画延迟和持续时间 (加快动画速度)
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.animationDuration = `${3 + Math.random() * 7}s`;
 
                 // 随机颜色
                 const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6'];
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.background = randomColor;
-                particle.style.boxShadow = `0 0 ${10 + Math.random() * 20}px ${randomColor}`;
+                particle.style.boxShadow = `0 0 ${5 + Math.random() * 20}px ${randomColor}`;
+                
+                // 一半粒子使用反向浮动动画
+                if (i % 2 === 0) {
+                    particle.style.animationName = 'float';
+                } else {
+                    particle.style.animationName = 'floatReverse';
+                }
 
                 particlesContainer.appendChild(particle);
             }
