@@ -1036,7 +1036,7 @@
         // 创建动态粒子背景
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = Math.min(50, Math.floor(window.innerWidth / 20));
+            const particleCount = Math.min(65, Math.floor(window.innerWidth / 20));
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1072,190 +1072,262 @@
             }
         }
 
-        // 修改后的移动菜单交互逻辑
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const desktopMenu = document.getElementById('desktopMenu');
-        let isMenuOpen = false;
+        // 移动端菜单交互模块
+        const mobileMenu = (function() {
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const desktopMenu = document.getElementById('desktopMenu');
+            let isMenuOpen = false;
 
-        function toggleMobileMenu() {
-            isMenuOpen = !isMenuOpen;
-            // 修复菜单显示控制逻辑
-            if (isMenuOpen) {
-                desktopMenu.classList.remove('hidden');
-                desktopMenu.classList.add('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
-                // 调整菜单项为靠左对齐并确保整行高亮
-                desktopMenu.querySelectorAll('a').forEach(link => {
-                    link.classList.add('justify-start', 'text-left', 'w-full');
-                    link.classList.remove('text-center');
-                });
-            } else {
-                desktopMenu.classList.add('hidden');
-                desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
-                // 恢复菜单项为居中对齐
-                desktopMenu.querySelectorAll('a').forEach(link => {
-                    link.classList.remove('justify-start', 'text-left', 'w-full');
-                    link.classList.add('text-center');
-                });
-            }
-            document.body.classList.toggle('overflow-hidden', isMenuOpen);
-        }
-
-        mobileMenuButton.addEventListener('click', toggleMobileMenu);
-
-        // 点击外部区域关闭菜单
-        document.addEventListener('click', (e) => {
-            if (!desktopMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+            function toggleMobileMenu() {
+                isMenuOpen = !isMenuOpen;
+                // 修复菜单显示控制逻辑
                 if (isMenuOpen) {
+                    desktopMenu.classList.remove('hidden');
+                    desktopMenu.classList.add('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                    // 调整菜单项为靠左对齐并确保整行高亮
+                    desktopMenu.querySelectorAll('a').forEach(link => {
+                        link.classList.add('justify-start', 'text-left', 'w-full');
+                        link.classList.remove('text-center');
+                    });
+                } else {
+                    desktopMenu.classList.add('hidden');
+                    desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
                     // 恢复菜单项为居中对齐
                     desktopMenu.querySelectorAll('a').forEach(link => {
                         link.classList.remove('justify-start', 'text-left', 'w-full');
                         link.classList.add('text-center');
                     });
-                    desktopMenu.classList.add('hidden');
+                }
+                document.body.classList.toggle('overflow-hidden', isMenuOpen);
+            }
+
+            // 点击外部区域关闭菜单
+            function handleClickOutside(e) {
+                if (!desktopMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                    if (isMenuOpen) {
+                        // 恢复菜单项为居中对齐
+                        desktopMenu.querySelectorAll('a').forEach(link => {
+                            link.classList.remove('justify-start', 'text-left', 'w-full');
+                            link.classList.add('text-center');
+                        });
+                        desktopMenu.classList.add('hidden');
+                        desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
+                        isMenuOpen = false;
+                        document.body.classList.remove('overflow-hidden');
+                    }
+                }
+            }
+
+            // 窗口重置逻辑
+            function handleResize() {
+                if (window.innerWidth >= 768) {
                     desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
-                    isMenuOpen = false;
-                    document.body.classList.remove('overflow-hidden');
+                    // 恢复菜单项为居中对齐
+                    desktopMenu.querySelectorAll('a').forEach(link => {
+                        link.classList.remove('justify-start', 'text-left', 'w-full');
+                        link.classList.add('text-center');
+                    });
+                    if (isMenuOpen) {
+                        document.body.classList.remove('overflow-hidden');
+                        isMenuOpen = false;
+                    }
+                } else if (isMenuOpen) {
+                    desktopMenu.classList.remove('hidden');
+                    // 调整菜单项为靠左对齐并确保整行高亮
+                    desktopMenu.querySelectorAll('a').forEach(link => {
+                        link.classList.add('justify-start', 'text-left', 'w-full');
+                        link.classList.remove('text-center');
+                    });
                 }
             }
-        });
 
-        // 窗口重置逻辑
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                desktopMenu.classList.remove('flex', 'flex-col', 'absolute', 'top-full', 'left-0', 'right-0', 'bg-cardBg', 'rounded-lg', 'shadow-lg', 'mt-2', 'py-2', 'w-full');
-                // 恢复菜单项为居中对齐
-                desktopMenu.querySelectorAll('a').forEach(link => {
-                    link.classList.remove('justify-start', 'text-left', 'w-full');
-                    link.classList.add('text-center');
+            // 初始化事件监听器
+            function init() {
+                mobileMenuButton.addEventListener('click', toggleMobileMenu);
+                document.addEventListener('click', handleClickOutside);
+                window.addEventListener('resize', handleResize);
+            }
+
+            return {
+                init: init
+            };
+        })();
+
+        // 数据统计模块
+        const statistics = (function() {
+            // 公司成立天数计算
+            function updateCompanyDays() {
+                const companyDate = new Date('2025-06-10');
+                const differenceInMilliseconds = Date.now() - companyDate.getTime();
+                const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+                document.querySelector('.stats-container .stat-item:first-child .stat-value').textContent = differenceInDays;
+                document.querySelector('.stats-container .stat-item:first-child div:last-child').textContent = `公司自${companyDate.getFullYear()}年${companyDate.getMonth() + 1}月${companyDate.getDate()}日创办至今`;
+            }
+
+            // 数字递增动画函数
+            function animateValue(element, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    element.textContent = Math.floor(progress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // 观察统计数字元素
+            function observeStats() {
+                const statObserver = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                const statValue = entry.target.querySelector('.stat-value');
+                                const target = parseInt(statValue.innerText);
+                                animateValue(statValue, 0, target, 800);
+                                statObserver.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.5 }
+                );
+                document.querySelectorAll('#data .stat-item').forEach((item) => {
+                    statObserver.observe(item);
                 });
-                if (isMenuOpen) {
-                    document.body.classList.remove('overflow-hidden');
-                    isMenuOpen = false;
+            }
+
+            // 初始化
+            function init() {
+                updateCompanyDays();
+                observeStats();
+            }
+
+            return {
+                init: init
+            };
+        })();
+
+        // 滚动动画模块
+        const scrollAnimation = (function() {
+            // 保持与现有滚动动画的兼容
+            const originalObserver = IntersectionObserver;
+            window.IntersectionObserver = class extends originalObserver {
+                observe(target) {
+                    if (!target.classList.contains('mobile-menu')) {
+                        super.observe(target);
+                    }
                 }
-            } else if (isMenuOpen) {
-                desktopMenu.classList.remove('hidden');
-                // 调整菜单项为靠左对齐并确保整行高亮
-                desktopMenu.querySelectorAll('a').forEach(link => {
-                    link.classList.add('justify-start', 'text-left', 'w-full');
-                    link.classList.remove('text-center');
+            };
+
+            // 添加自定义动画类
+            function addAnimationStyles() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fadeInUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    .animate-fadeInUp {
+                        animation: fadeInUp 0.6s ease forwards;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // 观察元素并添加动画
+            function observeElements() {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('animate-fadeInUp');
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+
+                document.querySelectorAll('.grid-item, .role-card, .stat-item').forEach((item) => {
+                    item.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+                    observer.observe(item);
                 });
             }
-        });
 
-        // 保持与现有滚动动画的兼容
-        const originalObserver = IntersectionObserver;
-        window.IntersectionObserver = class extends originalObserver {
-            observe(target) {
-                if (!target.classList.contains('mobile-menu')) {
-                    super.observe(target);
+            // 初始化
+            function init() {
+                addAnimationStyles();
+                observeElements();
+            }
+
+            return {
+                init: init
+            };
+        })();
+
+        // 页面功能模块
+        const pageFunctionality = (function() {
+            // 页面刷新自动跳转锚点处
+            function handleHashNavigation() {
+                const hash = window.location.hash;
+                if (hash) {
+                    window.location.hash = '';
+                    window.location.hash = hash;
                 }
             }
-        };
 
-        // 添加滚动动画效果
+            // footer部分年份自动更新
+            function updateFooterYear() {
+                const currentYear = new Date().getFullYear();
+                document.querySelector('footer p').textContent = `© ${currentYear} 灵动智算(西安)科技有限公司. 保留所有权利。`;
+            }
+
+            // 微信二维码弹窗功能
+            function initWechatPopup() {
+                const wechatLink = document.getElementById('wechat-link');
+                const wechatPopup = document.getElementById('wechat-qr-popup');
+                
+                if (wechatLink && wechatPopup) {
+                    wechatLink.addEventListener('mouseenter', () => {
+                        wechatPopup.classList.remove('hidden');
+                    });
+                    
+                    wechatLink.addEventListener('mouseleave', () => {
+                        wechatPopup.classList.add('hidden');
+                    });
+                }
+            }
+
+            // 初始化
+            function init() {
+                handleHashNavigation();
+                updateFooterYear();
+                initWechatPopup();
+            }
+
+            return {
+                init: init
+            };
+        })();
+
+        // 主初始化函数
         document.addEventListener('DOMContentLoaded', function () {
             // 创建粒子背景
             createParticles();
 
-            // 页面刷新自动跳转锚点处
-            const hash = window.location.hash
-            if (hash) {
-                window.location.hash = ''
-                window.location.hash = hash
-            }
-
-            // 公司成立天数
-            const companyDate = new Date('2025-06-10')
-            const differenceInMilliseconds = Date.now() - companyDate.getTime()
-            const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24))
-            document.querySelector('.stats-container .stat-item:first-child .stat-value').textContent = differenceInDays
-            document.querySelector('.stats-container .stat-item:first-child div:last-child').textContent = `公司自${companyDate.getFullYear()}年${companyDate.getMonth() + 1}月${companyDate.getDate()}日创办至今`
-
-            // 数字递增动画函数
-            const animateValue = (element, start, end, duration) => {
-                let startTimestamp = null
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1)
-                    element.textContent = Math.floor(progress * (end - start) + start)
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step)
-                    }
-                }
-                window.requestAnimationFrame(step)
-            }
-
-            // 观察统计数字元素
-            const statObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            const statValue = entry.target.querySelector('.stat-value')
-                            const target = parseInt(statValue.innerText)
-                            animateValue(statValue, 0, target, 800)
-                            statObserver.unobserve(entry.target)
-                        }
-                    })
-                },
-                { threshold: 0.5 }
-            )
-            document.querySelectorAll('#data .stat-item').forEach((item) => {
-                statObserver.observe(item)
-            })
-
-            // 滚动动画代码
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-fadeInUp')
-                        }
-                    })
-                },
-                { threshold: 0.1 }
-            )
-
-            document.querySelectorAll('.grid-item, .role-card, .stat-item').forEach((item) => {
-                item.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700')
-                observer.observe(item)
-            })
-
-            // 添加自定义动画类
-            const style = document.createElement('style')
-            style.textContent = `
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .animate-fadeInUp {
-                    animation: fadeInUp 0.6s ease forwards;
-                }
-            `
-            document.head.appendChild(style)
-
-            // footer部分年份自动更新
-            const currentYear = new Date().getFullYear()
-            document.querySelector('footer p').textContent = `© ${currentYear} 灵动智算(西安)科技有限公司. 保留所有权利。`
-
-            // 微信二维码弹窗功能
-            const wechatLink = document.getElementById('wechat-link');
-            const wechatPopup = document.getElementById('wechat-qr-popup');
-            
-            wechatLink.addEventListener('mouseenter', () => {
-                wechatPopup.classList.remove('hidden');
-            });
-            
-            wechatLink.addEventListener('mouseleave', () => {
-                wechatPopup.classList.add('hidden');
-            });
-
-        })
+            // 初始化各个模块
+            mobileMenu.init();
+            statistics.init();
+            scrollAnimation.init();
+            pageFunctionality.init();
+        });
     </script>
 </body>
 
