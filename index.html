@@ -118,6 +118,7 @@
 
         /* 添加一个新的动画变体 */
         @keyframes floatReverse {
+
             0%,
             100% {
                 transform: translateY(0) translateX(0);
@@ -453,32 +454,41 @@
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
             <!-- 左侧Logo和标题 -->
             <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-geminiBlue to-accentPurple flex items-center justify-center shadow-lg animate-pulse-slow">
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-geminiBlue to-accentPurple flex items-center justify-center shadow-lg animate-pulse-slow">
                     <i class="fas fa-brain text-white text-xl"></i>
                 </div>
-                <img src="static/ldzsai-logo.png" style="width: 9.5%; border-radius: 0.75rem;" alt="灵动智算" class="hidden md:block" />
-                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-geminiBlue to-neonBlue">灵动智算</span>
+                <img src="static/ldzsai-logo.png" style="width: 9.5%; border-radius: 0.75rem;" alt="灵动智算"
+                    class="hidden md:block" />
+                <span
+                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-geminiBlue to-neonBlue">灵动智算</span>
             </div>
 
             <!-- 右侧导航菜单 -->
             <div id="desktopMenu" class="hidden md:flex items-center space-x-4 whitespace-nowrap">
-                <a href="#home" class="px-5 py-3 text-gray-300 hover:text-geminiBlue transition-all duration-300 rounded-xl hover:bg-geminiBlue/10 font-medium">
-                    <i class="fas fa-home mr-2"></i>首页 
+                <a href="#home"
+                    class="px-5 py-3 text-gray-300 hover:text-geminiBlue transition-all duration-300 rounded-xl hover:bg-geminiBlue/10 font-medium">
+                    <i class="fas fa-home mr-2"></i>首页
                 </a>
-                <a href="#team" class="px-5 py-3 text-gray-300 hover:text-geminiGreen transition-all duration-300 rounded-xl hover:bg-geminiGreen/10 font-medium">
-                    <i class="fas fa-users mr-2"></i>团队 
+                <a href="#team"
+                    class="px-5 py-3 text-gray-300 hover:text-geminiGreen transition-all duration-300 rounded-xl hover:bg-geminiGreen/10 font-medium">
+                    <i class="fas fa-users mr-2"></i>团队
                 </a>
-                <a href="#applications" class="px-5 py-3 text-gray-300 hover:text-geminiYellow transition-all duration-300 rounded-xl hover:bg-geminiYellow/10 font-medium">
-                    <i class="fas fa-shapes mr-2"></i>场景 
+                <a href="#applications"
+                    class="px-5 py-3 text-gray-300 hover:text-geminiYellow transition-all duration-300 rounded-xl hover:bg-geminiYellow/10 font-medium">
+                    <i class="fas fa-shapes mr-2"></i>场景
                 </a>
-                <a href="#projects" class="px-5 py-3 text-gray-300 hover:text-purple-500 transition-all duration-300 rounded-xl hover:bg-purple-500/10 font-medium">
-                    <i class="fas fa-file-alt mr-2"></i>项目 
+                <a href="#projects"
+                    class="px-5 py-3 text-gray-300 hover:text-purple-500 transition-all duration-300 rounded-xl hover:bg-purple-500/10 font-medium">
+                    <i class="fas fa-file-alt mr-2"></i>项目
                 </a>
-                <a href="#data" class="px-5 py-3 text-gray-300 hover:text-pink-500 transition-all duration-300 rounded-xl hover:bg-pink-500/10 font-medium">
-                    <i class="fas fa-database mr-2"></i>数据 
+                <a href="#data"
+                    class="px-5 py-3 text-gray-300 hover:text-pink-500 transition-all duration-300 rounded-xl hover:bg-pink-500/10 font-medium">
+                    <i class="fas fa-database mr-2"></i>数据
                 </a>
-                <a href="#contact" class="px-5 py-3 text-gray-300 hover:text-geminiRed transition-all duration-300 rounded-xl hover:bg-geminiRed/10 font-medium">
-                    <i class="fas fa-envelope mr-2"></i>联系我们 
+                <a href="#contact"
+                    class="px-5 py-3 text-gray-300 hover:text-geminiRed transition-all duration-300 rounded-xl hover:bg-geminiRed/10 font-medium">
+                    <i class="fas fa-envelope mr-2"></i>联系我们
                 </a>
             </div>
 
@@ -999,15 +1009,19 @@
                     class="text-gray-400 hover:text-white transition transform hover:scale-110">
                     <i class="fab fa-github text-3xl"></i>
                 </a>
-                
+
                 <!-- 微信公众号二维码弹窗 -->
-                <a class="text-gray-400 hover:text-white transition transform hover:scale-110 relative" id="wechat-link">
+                <a class="text-gray-400 hover:text-white transition transform hover:scale-110 relative"
+                    id="wechat-link">
                     <i class="fab fa-weixin text-3xl"></i>
-                    <div id="wechat-qr-popup" class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden">
+                    <div id="wechat-qr-popup"
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden">
                         <div class="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
                             <img src="static/wechat-qr.png" alt="微信二维码" class="w-auto h-auto max-w-xs">
                         </div>
-                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2 border-8 border-transparent border-t-white"></div>
+                        <div
+                            class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2 border-8 border-transparent border-t-white">
+                        </div>
                     </div>
                 </a>
             </div>
@@ -1038,6 +1052,9 @@
             const particlesContainer = document.getElementById('particles');
             const particleCount = Math.min(65, Math.floor(window.innerWidth / 20));
 
+            // 创建文档片段以提高性能
+            const fragment = document.createDocumentFragment();
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1060,7 +1077,7 @@
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 particle.style.background = randomColor;
                 particle.style.boxShadow = `0 0 ${5 + Math.random() * 20}px ${randomColor}`;
-                
+
                 // 一半粒子使用反向浮动动画
                 if (i % 2 === 0) {
                     particle.style.animationName = 'float';
@@ -1068,12 +1085,15 @@
                     particle.style.animationName = 'floatReverse';
                 }
 
-                particlesContainer.appendChild(particle);
+                fragment.appendChild(particle);
             }
+
+            // 一次性添加所有粒子以提高性能
+            particlesContainer.appendChild(fragment);
         }
 
         // 移动端菜单交互模块
-        const mobileMenu = (function() {
+        const mobileMenu = (function () {
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const desktopMenu = document.getElementById('desktopMenu');
             let isMenuOpen = false;
@@ -1154,7 +1174,7 @@
         })();
 
         // 数据统计模块
-        const statistics = (function() {
+        const statistics = (function () {
             // 公司成立天数计算
             function updateCompanyDays() {
                 const companyDate = new Date('2025-06-10');
@@ -1210,7 +1230,7 @@
         })();
 
         // 滚动动画模块
-        const scrollAnimation = (function() {
+        const scrollAnimation = (function () {
             // 保持与现有滚动动画的兼容
             const originalObserver = IntersectionObserver;
             window.IntersectionObserver = class extends originalObserver {
@@ -1273,7 +1293,7 @@
         })();
 
         // 页面功能模块
-        const pageFunctionality = (function() {
+        const pageFunctionality = (function () {
             // 页面刷新自动跳转锚点处
             function handleHashNavigation() {
                 const hash = window.location.hash;
@@ -1293,12 +1313,12 @@
             function initWechatPopup() {
                 const wechatLink = document.getElementById('wechat-link');
                 const wechatPopup = document.getElementById('wechat-qr-popup');
-                
+
                 if (wechatLink && wechatPopup) {
                     wechatLink.addEventListener('mouseenter', () => {
                         wechatPopup.classList.remove('hidden');
                     });
-                    
+
                     wechatLink.addEventListener('mouseleave', () => {
                         wechatPopup.classList.add('hidden');
                     });
