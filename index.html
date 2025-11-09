@@ -470,10 +470,6 @@
                     class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiBlue transition-all duration-300 rounded-xl hover:bg-geminiBlue/10 font-medium">
                     <i class="fas fa-home mr-1 lg:mr-2"></i>首页
                 </a>
-                <a href="#team"
-                    class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiGreen transition-all duration-300 rounded-xl hover:bg-geminiGreen/10 font-medium">
-                    <i class="fas fa-users mr-1 lg:mr-2"></i>团队
-                </a>
                 <a href="#applications"
                     class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiYellow transition-all duration-300 rounded-xl hover:bg-geminiYellow/10 font-medium">
                     <i class="fas fa-shapes mr-1 lg:mr-2"></i>场景
@@ -485,6 +481,10 @@
                 <a href="#data"
                     class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-pink-500 transition-all duration-300 rounded-xl hover:bg-pink-500/10 font-medium">
                     <i class="fas fa-database mr-1 lg:mr-2"></i>数据
+                </a>
+                <a href="#team"
+                    class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiGreen transition-all duration-300 rounded-xl hover:bg-geminiGreen/10 font-medium">
+                    <i class="fas fa-users mr-1 lg:mr-2"></i>团队
                 </a>
                 <a href="#contact"
                     class="px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiRed transition-all duration-300 rounded-xl hover:bg-geminiRed/10 font-medium">
@@ -521,7 +521,8 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 justify-center mb-12 w-full max-w-4xl mx-auto">
                 <div
                     class="relative bg-gradient-to-br from-geminiBlue/20 to-geminiBlue/5 backdrop-blur-sm border border-geminiBlue/30 rounded-2xl p-5 text-center shadow-lg hover:shadow-geminiBlue/20 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiBlue flex items-center justify-center">
+                    <div
+                        class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiBlue flex items-center justify-center">
                         <span class="text-white font-bold text-sm">1</span>
                     </div>
                     <div class="mt-2">
@@ -531,7 +532,8 @@
                 </div>
                 <div
                     class="relative bg-gradient-to-br from-geminiGreen/20 to-geminiGreen/5 backdrop-blur-sm border border-geminiGreen/30 rounded-2xl p-5 text-center shadow-lg hover:shadow-geminiGreen/20 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiGreen flex items-center justify-center">
+                    <div
+                        class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiGreen flex items-center justify-center">
                         <span class="text-white font-bold text-sm">2</span>
                     </div>
                     <div class="mt-2">
@@ -541,7 +543,8 @@
                 </div>
                 <div
                     class="relative bg-gradient-to-br from-geminiYellow/20 to-geminiYellow/5 backdrop-blur-sm border border-geminiYellow/30 rounded-2xl p-5 text-center shadow-lg hover:shadow-geminiYellow/20 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiYellow flex items-center justify-center">
+                    <div
+                        class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiYellow flex items-center justify-center">
                         <span class="text-white font-bold text-sm">3</span>
                     </div>
                     <div class="mt-2">
@@ -551,7 +554,8 @@
                 </div>
                 <div
                     class="relative bg-gradient-to-br from-geminiRed/20 to-geminiRed/5 backdrop-blur-sm border border-geminiRed/30 rounded-2xl p-5 text-center shadow-lg hover:shadow-geminiRed/20 transition-all duration-300 hover:-translate-y-1">
-                    <div class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiRed flex items-center justify-center">
+                    <div
+                        class="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-geminiRed flex items-center justify-center">
                         <span class="text-white font-bold text-sm">4</span>
                     </div>
                     <div class="mt-2">
@@ -562,7 +566,7 @@
             </div>
 
             <div class="flex justify-center">
-                <a href="#team"
+                <a href="#applications"
                     class="btn-glow bg-gradient-to-r from-geminiBlue to-accentPurple hover:from-geminiBlue/90 hover:to-accentPurple/90 text-white font-bold py-4 px-10 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-arrow-down mr-2"></i>探索我们的世界
                 </a>
@@ -573,157 +577,6 @@
             <div class="w-8 h-12 border-2 border-geminiBlue/50 rounded-full flex justify-center">
                 <div class="w-1 h-4 bg-geminiBlue mt-2 animate-pulse"></div>
             </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section class="container mx-auto py-16 px-4" id="team">
-        <h2 class="section-title text-center text-4xl md:text-5xl">团队介绍</h2>
-        <p class="text-lg md:text-xl text-center text-gray-300 max-w-3xl mx-auto mb-12">团队由资深设计师和开发者组成，致力于打造卓越的用户体验。</p>
-
-        <div class="bento-grid">
-            <div class="grid-item col-span-2 row-span-1 role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="highlight-gradient"></div>
-                <div class="big-number">01</div>
-                <div class="relative z-10">
-                    <div class="text-geminiBlue text-base md:text-lg mb-2">CEO、CTO</div>
-                    <div class="big-text text-4xl md:text-5xl">拔剑</div>
-                    <div class="text-gray-300 mt-4 text-sm md:text-base max-w-md">
-                        负责公司战略与发展方向，主导技术战略规划与系统架构设计，引领高性能分布式系统研发，攻克关键核心技术难题。</div>
-                </div>
-            </div>
-
-            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="highlight-gradient"></div>
-                <div class="big-number">02</div>
-                <div class="relative z-10">
-                    <div class="text-geminiGreen text-base md:text-lg mb-2">市场营销</div>
-                    <div class="big-text text-4xl">茗菌</div>
-                    <div class="text-gray-300 mt-4 text-sm md:text-base">制定全渠道营销策略，通过数据驱动提升品牌影响力与市场渗透率。</div>
-                </div>
-            </div>
-
-            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="highlight-gradient"></div>
-                <div class="big-number">03</div>
-                <div class="relative z-10">
-                    <div class="text-geminiYellow text-base md:text-lg mb-2">商务总监</div>
-                    <div class="big-text text-4xl">不羁</div>
-                    <div class="text-gray-300 mt-4 text-sm md:text-base">开拓战略合作渠道，推动产品市场覆盖，构建企业级合作生态体系。</div>
-                </div>
-            </div>
-
-            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="highlight-gradient"></div>
-                <div class="big-number">04</div>
-                <div class="relative z-10">
-                    <div class="text-geminiRed text-base md:text-lg mb-2">技术总监</div>
-                    <div class="big-text text-4xl">令狐</div>
-                    <div class="text-gray-300 mt-4 text-sm md:text-base">领导技术架构演进与研发创新，推动前沿技术落地，解决高复杂性技术挑战。</div>
-                </div>
-            </div>
-
-            <div class="grid-item col-span-2 role-card hover:border-geminiBlue/50 transition-colors">
-                <div class="highlight-gradient"></div>
-                <div class="big-number">N</div>
-                <div class="relative z-10">
-                    <div class="text-lg mb-2">期待您</div>
-                    <div class="big-text text-4xl md:text-5xl">加入我们</div>
-                    <div class="text-gray-300 mt-4 text-sm md:text-base max-w-md">加入年轻团队实现共赢，追寻我们的梦想。</div>
-                    <div class="mt-4 p-3 bg-cardBg rounded-xl w-full max-w-xs">
-                        <div class="text-xs md:text-sm font-mono text-gray-400">
-                            <span class="text-geminiBlue">你是一名</span>[AI/软件]的项目经理。<br />
-                            <span class="text-geminiGreen">你是一名</span>[UI/UX]设计师<br />
-                            <span class="text-geminiYellow">你是一名</span>资深开发工程师<br />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Tips -->
-            <!-- <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">05</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-comment-dots"></i>
-                            </div>
-                            <div class="text-lg ml-4">xxx</div>
-                        </div>
-                        <div class="text-gray-300">xxx</div>
-                    </div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">06</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="text-lg ml-4">xxx</div>
-                        </div>
-                        <div class="text-gray-300">xxx</div>
-                    </div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">07</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-exchange-alt"></i>
-                            </div>
-                            <div class="text-lg ml-4">xxx</div>
-                        </div>
-                        <div class="text-gray-300">xxx</div>
-                    </div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">08</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div class="text-lg ml-4">xxx</div>
-                        </div>
-                        <div class="text-gray-300">xxx</div>
-                    </div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">09</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-magic"></i>
-                            </div>
-                            <div class="text-lg ml-4">xxx</div>
-                        </div>
-                        <div class="text-gray-300">xxx</div>
-                    </div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="highlight-gradient"></div>
-                    <div class="big-number">10</div>
-                    <div class="relative z-10">
-                        <div class="flex items-center mb-4">
-                            <div class="icon-circle">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="text-lg ml-4">迭代改进</div>
-                        </div>
-                        <div class="text-gray-300">用户尝试的提示通常少于9个词，但最有效的提示平均为21个词。</div>
-                    </div>
-                </div> -->
         </div>
     </section>
 
@@ -923,6 +776,161 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="container mx-auto py-16 px-4" id="team">
+        <h2 class="section-title text-center text-4xl md:text-5xl">团队介绍</h2>
+        <p class="text-lg md:text-xl text-center text-gray-300 max-w-3xl mx-auto mb-12">团队由资深设计师和开发者组成，致力于打造卓越的用户体验。</p>
+
+        <div class="bento-grid">
+            <div class="grid-item col-span-2 row-span-1 role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">01</div>
+                <div class="relative z-10">
+                    <div class="text-geminiBlue text-base md:text-lg mb-2">CEO、CTO</div>
+                    <div class="big-text text-4xl md:text-5xl">拔剑</div>
+                    <div class="text-gray-300 mt-4 text-sm md:text-base max-w-md">
+                        负责公司战略与发展方向，主导技术战略规划与系统架构设计，引领高性能分布式系统研发，攻克关键核心技术难题。</div>
+                </div>
+            </div>
+
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">02</div>
+                <div class="relative z-10">
+                    <div class="text-geminiGreen text-base md:text-lg mb-2">市场营销</div>
+                    <div class="big-text text-4xl">茗菌</div>
+                    <div class="text-gray-300 mt-4 text-sm md:text-base">制定全渠道营销策略，通过数据驱动提升品牌影响力与市场渗透率。</div>
+                </div>
+            </div>
+
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">03</div>
+                <div class="relative z-10">
+                    <div class="text-geminiYellow text-base md:text-lg mb-2">商务总监</div>
+                    <div class="big-text text-4xl">不羁</div>
+                    <div class="text-gray-300 mt-4 text-sm md:text-base">开拓战略合作渠道，推动产品市场覆盖，构建企业级合作生态体系。</div>
+                </div>
+            </div>
+
+            <div class="grid-item role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">04</div>
+                <div class="relative z-10">
+                    <div class="text-geminiRed text-base md:text-lg mb-2">技术总监</div>
+                    <div class="big-text text-4xl">令狐</div>
+                    <div class="text-gray-300 mt-4 text-sm md:text-base">领导技术架构演进与研发创新，推动前沿技术落地，解决高复杂性技术挑战。</div>
+                </div>
+            </div>
+
+            <div class="grid-item col-span-2 role-card hover:border-geminiBlue/50 transition-colors">
+                <div class="highlight-gradient"></div>
+                <div class="big-number">N</div>
+                <div class="relative z-10">
+                    <div class="text-lg mb-2">期待您</div>
+                    <div class="big-text text-4xl md:text-5xl">加入我们</div>
+                    <div class="text-gray-300 mt-4 text-sm md:text-base max-w-md">加入年轻团队实现共赢，追寻我们的梦想。</div>
+                    <div class="mt-4 p-3 bg-cardBg rounded-xl w-full max-w-xs">
+                        <div class="text-xs md:text-sm font-mono text-gray-400">
+                            <span class="text-geminiBlue">你是一名</span>[AI/软件]的项目经理。<br />
+                            <span class="text-geminiGreen">你是一名</span>[UI/UX]设计师<br />
+                            <span class="text-geminiYellow">你是一名</span>资深开发工程师<br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Tips -->
+            <!-- <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">05</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <div class="text-lg ml-4">xxx</div>
+                        </div>
+                        <div class="text-gray-300">xxx</div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">06</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="text-lg ml-4">xxx</div>
+                        </div>
+                        <div class="text-gray-300">xxx</div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">07</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="text-lg ml-4">xxx</div>
+                        </div>
+                        <div class="text-gray-300">xxx</div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">08</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="text-lg ml-4">xxx</div>
+                        </div>
+                        <div class="text-gray-300">xxx</div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">09</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="text-lg ml-4">xxx</div>
+                        </div>
+                        <div class="text-gray-300">xxx</div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <div class="highlight-gradient"></div>
+                    <div class="big-number">10</div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="text-lg ml-4">迭代改进</div>
+                        </div>
+                        <div class="text-gray-300">用户尝试的提示通常少于9个词，但最有效的提示平均为21个词。</div>
+                    </div>
+                </div> -->
+        </div>
+    </section>
+
+    </div>
+    </div>
     </section>
 
     <!-- Contact Section -->
