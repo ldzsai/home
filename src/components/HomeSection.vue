@@ -10,16 +10,16 @@
         <h1 class="hero-title text-5xl sm:text-6xl md:text-8xl font-bold leading-none tracking-tight">
           <span class="inline transition-all duration-500 group-hover:tracking-wide">
             <span
-              class="text-white relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple">灵</span>
+              class="text-white relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple hero-title-character">灵</span>
             <span
-              class="text-gray-200 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple">动</span>
+              class="text-gray-200 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple hero-title-character">动</span>
           </span>
           <span
             class="inline ml-0 md:ml-4 transition-all duration-500 group-hover:tracking-wide">
             <span
-              class="text-gray-100 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple">智</span>
+              class="text-gray-100 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple hero-title-character">智</span>
             <span
-              class="text-gray-300 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple">算</span>
+              class="text-gray-300 relative z-10 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-geminiBlue group-hover:to-accentPurple hero-title-character">算</span>
           </span>
         </h1>
         <div
@@ -167,7 +167,7 @@
 
 .hero-title span span {
   display: inline-block;
-  animation: titleEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: titleEntrance 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   transform-origin: bottom center;
   opacity: 0;
 }
@@ -177,27 +177,43 @@
 }
 
 .hero-title span:first-child span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.hero-title span:last-child span:nth-child(1) {
   animation-delay: 0.3s;
 }
 
+.hero-title span:last-child span:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
 .hero-title span:last-child span:nth-child(2) {
-  animation-delay: 0.4s;
+  animation-delay: 0.7s;
 }
 
 /* 添加英雄标题动画 */
 @keyframes titleEntrance {
   0% {
     opacity: 0;
-    transform: translateY(30px) rotateX(90deg);
+    transform: translateY(50px) rotateX(90deg) scale(0.5);
+    filter: blur(4px);
+    letter-spacing: -5px;
   }
-
+  
+  25% {
+    opacity: 0.5;
+    transform: translateY(20px) rotateX(45deg) scale(1.1);
+    filter: blur(2px);
+  }
+  
+  50% {
+    opacity: 1;
+    transform: translateY(-10px) rotateX(-10deg) scale(1.05);
+    filter: blur(0.5px);
+  }
+  
   100% {
     opacity: 1;
-    transform: translateY(0) rotateX(0);
+    transform: translateY(0) rotateX(0) scale(1);
+    filter: blur(0px);
+    letter-spacing: 0px;
   }
 }
 
