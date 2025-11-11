@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义 CSS 变量和样式 */
+:root {
+  --gemini-blue: #4285F4;
+  --gemini-green: #34A853;
+  --gemini-yellow: #FBBC05;
+  --gemini-red: #EA4335;
+  --dark-bg: #0F172A;
+  --card-bg: #1E293B;
+  --accent-purple: #8B5CF6;
+  --neon-blue: #00f0ff;
+  --neon-pink: #ff00c8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #4285F4, #34A853);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #34A853, #4285F4);
+}
