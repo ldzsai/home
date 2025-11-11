@@ -26,7 +26,7 @@ concurrency:
 
 jobs:
   # Single deploy job since we're just deploying
-  deploy:
+  build:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -70,7 +70,14 @@ jobs:
         with:
           # Upload dist folder
           path: './dist'
-          
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages  # 指定部署环境名称（固定写法）
+      url: ${{ steps.deployment.outputs.page_url }} # 部署完成后生成的访问 URL
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2     
