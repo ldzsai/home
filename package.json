@@ -1,11 +1,22 @@
 {
   "name": "ldzsai-home",
-  "private": true,
   "version": "0.0.1",
+  "description": "公司官网首页 - 展示公司基本信息和形象",
+  "keywords": ["灵动智算"],
+  "homepage": "https://www.ldzsai.com/",
+  "bugs": {
+    "url": "https://github.com/ldzsai/home/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ldzsai/home.git"
+  },
+  "license": "MIT",
+  "author": "LDZSAI-FUTURE <contact@ldzsai.com>",
+  "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --host"
+    "build": "vite build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
@@ -24,5 +35,9 @@
     "typescript": "^5.2.2",
     "vite": "^7.2.2",
     "vite-plugin-compression": "^0.5.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
   }
 }
