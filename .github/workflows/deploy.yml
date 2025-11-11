@@ -64,9 +64,6 @@ jobs:
       # 创建 CNAME 文件
       - name: Create CNAME file
         run: echo "www.ldzsai.com" > ./dist/CNAME
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
         
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
