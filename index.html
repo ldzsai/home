@@ -51,6 +51,11 @@
             scroll-behavior: smooth;
         }
 
+        /* 为锚点目标添加偏移量，避免被固定导航栏遮挡 */
+        section[id] {
+            scroll-margin-top: 1.5rem;
+        }
+
         body {
             font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             background-color: #0f172a;
