@@ -25,32 +25,16 @@ jobs:
   # Single deploy job since we're just deploying
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      # 使用pnpm
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22.x
-      
-      # 安装 pnpm
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      # 缓存 pnpm 缓存和 node_modules
-      - name: Cache pnpm cache and node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: ${{ runner.os }}-pnpm-cache-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-cache-
+          node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
@@ -67,14 +51,23 @@ jobs:
         with:
           # Upload dist folder
           path: './dist'
+          retention-days: 1
   
+  # 部署
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages  # 指定部署环境名称（固定写法）
-      url: ${{ steps.deployment.outputs.page_url }} # 部署完成后生成的访问 URL
+    name: Deploy
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2     
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ github.token }}
+          preview: true
+          timeout: 600000
+          error_count: 10
+          reporting_interval: 5000    
