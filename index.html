@@ -1471,27 +1471,33 @@
                 const wechatPopup = document.getElementById('wechat-qr-popup');
 
                 if (wechatLink && wechatPopup) {
-                    // 桌面端悬停显示
-                    wechatLink.addEventListener('mouseenter', () => {
-                        wechatPopup.classList.remove('hidden');
-                    });
+                    // 检测是否为触摸设备
+                    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                    
+                    if (isTouchDevice) {
+                        // 移动端使用点击事件
+                        wechatLink.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            wechatPopup.classList.toggle('hidden');
+                        });
+                        
+                        // 点击其他区域隐藏弹窗
+                        document.addEventListener('click', function (e) {
+                            if (!wechatLink.contains(e.target)) {
+                                wechatPopup.classList.add('hidden');
+                            }
+                        });
+                    } else {
+                        // 桌面端使用悬停事件
+                        wechatLink.addEventListener('mouseenter', () => {
+                            wechatPopup.classList.remove('hidden');
+                        });
 
-                    wechatLink.addEventListener('mouseleave', () => {
-                        wechatPopup.classList.add('hidden');
-                    });
-
-                    // 移动端触摸支持
-                    wechatLink.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        wechatPopup.classList.toggle('hidden');
-                    });
-
-                    // 点击其他区域隐藏弹窗
-                    document.addEventListener('click', function (e) {
-                        if (!wechatLink.contains(e.target)) {
+                        wechatLink.addEventListener('mouseleave', () => {
                             wechatPopup.classList.add('hidden');
-                        }
-                    });
+                        });
+                    }
                 }
             }
 
