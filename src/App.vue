@@ -1,11 +1,10 @@
 <script setup lang="ts">
 // 主应用组件，整合所有页面部分
 import { defineAsyncComponent, onMounted } from 'vue';
-import Navbar from '@/components/Navbar.vue';
-import ParticlesBackground from '@/components/ParticlesBackground.vue';
-import { useScrollAnimations } from '@/composables/useScrollAnimations';
 
 // 动态导入所有页面组件
+const Navbar = defineAsyncComponent(() => import('@/components/Navbar.vue'));
+const ParticlesBackground = defineAsyncComponent(() => import('@/components/ParticlesBackground.vue'));
 const HomeSection = defineAsyncComponent(() => import('@/components/HomeSection.vue'));
 const ApplicationsSection = defineAsyncComponent(() => import('@/components/ApplicationsSection.vue'));
 const ProjectsSection = defineAsyncComponent(() => import('@/components/ProjectsSection.vue'));
@@ -15,10 +14,13 @@ const ContactSection = defineAsyncComponent(() => import('@/components/ContactSe
 const PageFooter = defineAsyncComponent(() => import('@/components/PageFooter.vue'));
 
 // 使用滚动动画和锚点跳转功能
+import { useScrollAnimations } from '@/composables/useScrollAnimations';
 const { initScrollAnimations, handleHashNavigation } = useScrollAnimations();
 
 // 在组件挂载时初始化功能
-onMounted(() => {
+onMounted(async () => {
+  // 给异步组件一些加载时间
+  await new Promise(resolve => setTimeout(resolve, 500));
   initScrollAnimations();
   handleHashNavigation();
 });

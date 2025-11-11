@@ -1,9 +1,12 @@
-import { onMounted, nextTick } from 'vue'
+import { nextTick } from 'vue'
 
 // 滚动动画和锚点跳转的composable
 export function useScrollAnimations() {
   // 初始化滚动动画
-  const initScrollAnimations = () => {
+  const initScrollAnimations = async () => {
+    // 等待下一个DOM更新周期
+    await nextTick();
+      
     // 添加自定义动画样式
     const style = document.createElement('style');
     style.textContent = `
@@ -43,13 +46,25 @@ export function useScrollAnimations() {
       { threshold: 0.1 }
     );
 
-    // 观察需要动画效果的元素
-    setTimeout(() => {
-      document.querySelectorAll('.grid-item, .role-card, .stat-item, .bento-grid > div').forEach((item) => {
-        item.classList.add('scroll-fade-initial');
-        observer.observe(item);
-      });
-    }, 100);
+    // 尝试多次查找元素，以适应异步组件加载的情况
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    const observeElements = () => {
+      const items = document.querySelectorAll('.grid-item, .role-card, .stat-item, .bento-grid > div');
+      if (items.length > 0) {
+        items.forEach((item) => {
+          item.classList.add('scroll-fade-initial');
+          observer.observe(item);
+        });
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        setTimeout(observeElements, 300); // 每300ms重试一次
+      }
+    };
+
+    // 开始观察元素
+    observeElements();
   }
 
   // 处理锚点跳转
@@ -60,25 +75,33 @@ export function useScrollAnimations() {
       await nextTick();
       
       // 再等待一小段时间确保DOM完全渲染
-      setTimeout(() => {
+      const scrollToElement = () => {
         const targetElement = document.querySelector(hash);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' });
+          return true;
         }
-      }, 100);
+        return false;
+      };
+      
+      // 如果第一次没有找到元素，则稍后重试几次
+      if (!scrollToElement()) {
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const retryScroll = () => {
+          attempts++;
+          if (!scrollToElement() && attempts < maxAttempts) {
+            setTimeout(retryScroll, 300);
+          }
+        };
+        
+        setTimeout(retryScroll, 300);
+      }
     }
   }
 
-  // 在组件挂载时初始化
-  const mount = () => {
-    onMounted(() => {
-      initScrollAnimations();
-      handleHashNavigation();
-    });
-  }
-
   return {
-    mount,
     initScrollAnimations,
     handleHashNavigation
   }
