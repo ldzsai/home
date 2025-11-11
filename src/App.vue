@@ -1,16 +1,18 @@
 <script setup lang="ts">
 // 主应用组件，整合所有页面部分
+import { defineAsyncComponent, onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
-import HomeSection from '@/components/HomeSection.vue';
-import ApplicationsSection from '@/components/ApplicationsSection.vue';
-import ProjectsSection from '@/components/ProjectsSection.vue';
-import DataSection from '@/components/DataSection.vue';
-import TeamSection from '@/components/TeamSection.vue';
-import ContactSection from '@/components/ContactSection.vue';
-import PageFooter from '@/components/PageFooter.vue';
 import ParticlesBackground from '@/components/ParticlesBackground.vue';
 import { useScrollAnimations } from '@/composables/useScrollAnimations';
-import { onMounted } from 'vue';
+
+// 动态导入所有页面组件
+const HomeSection = defineAsyncComponent(() => import('@/components/HomeSection.vue'));
+const ApplicationsSection = defineAsyncComponent(() => import('@/components/ApplicationsSection.vue'));
+const ProjectsSection = defineAsyncComponent(() => import('@/components/ProjectsSection.vue'));
+const DataSection = defineAsyncComponent(() => import('@/components/DataSection.vue'));
+const TeamSection = defineAsyncComponent(() => import('@/components/TeamSection.vue'));
+const ContactSection = defineAsyncComponent(() => import('@/components/ContactSection.vue'));
+const PageFooter = defineAsyncComponent(() => import('@/components/PageFooter.vue'));
 
 // 使用滚动动画和锚点跳转功能
 const { initScrollAnimations, handleHashNavigation } = useScrollAnimations();
