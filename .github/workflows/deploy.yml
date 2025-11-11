@@ -56,7 +56,7 @@ jobs:
         run: pnpm install
 
       - name: Build project
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm run build
       
       # 创建 CNAME 文件
       - name: Create CNAME file
