@@ -70,26 +70,31 @@ const resizeCanvas = () => {
   }
 };
 
-// 检查两个粒子是否碰撞
+// 检查两个粒子是否碰撞 - 使用平方距离避免开方运算
 const checkCollision = (p1: Particle, p2: Particle): boolean => {
   const dx = p1.x - p2.x;
   const dy = p1.y - p2.y;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  return distance < p1.size + p2.size;
+  const distanceSq = dx * dx + dy * dy;
+  const sizeSum = p1.size + p2.size;
+  return distanceSq < sizeSum * sizeSum;
 };
 
 // 处理粒子间碰撞
 const handleCollisions = () => {
-  for (let i = 0; i < particles.value.length; i++) {
-    for (let j = i + 1; j < particles.value.length; j++) {
-      const p1 = particles.value[i];
-      const p2 = particles.value[j];
+  const particleArray = particles.value;
+  const len = particleArray.length;
+  
+  for (let i = 0; i < len; i++) {
+    for (let j = i + 1; j < len; j++) {
+      const p1 = particleArray[i];
+      const p2 = particleArray[j];
       
       if (checkCollision(p1, p2)) {
         // 计算碰撞后的速度（弹性碰撞）
         const dx = p1.x - p2.x;
         const dy = p1.y - p2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const distanceSq = dx * dx + dy * dy;
+        const distance = Math.sqrt(distanceSq);
         
         // 防止粒子重叠
         const overlap = (p1.size + p2.size - distance) / 2;
@@ -117,7 +122,7 @@ const handleCollisions = () => {
         const restitution = 0.8;
         
         // 碰撞冲量
-        const impulse = 2 * speedAlongNormal / (1 + 1);
+        const impulse = speedAlongNormal;
         
         // 更新速度
         p1.speedX -= impulse * normalX * restitution;
@@ -139,6 +144,10 @@ const drawParticles = () => {
   // 清空画布
   ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height);
   
+  // 缓存窗口尺寸
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  
   // 更新和绘制每个粒子
   particles.value.forEach(particle => {
     // 更新粒子位置 - 创建浮动效果
@@ -152,28 +161,30 @@ const drawParticles = () => {
     }
     
     // 边界检查
-    if (particle.x < particle.size || particle.x > window.innerWidth - particle.size) {
+    if (particle.x < particle.size || particle.x > windowWidth - particle.size) {
       particle.speedX = -particle.speedX * 0.9;
-      particle.x = particle.x < particle.size ? particle.size : window.innerWidth - particle.size;
+      particle.x = particle.x < particle.size ? particle.size : windowWidth - particle.size;
     }
-    if (particle.y < particle.size || particle.y > window.innerHeight - particle.size) {
+    if (particle.y < particle.size || particle.y > windowHeight - particle.size) {
       particle.speedY = -particle.speedY * 0.9;
-      particle.y = particle.y < particle.size ? particle.size : window.innerHeight - particle.size;
+      particle.y = particle.y < particle.size ? particle.size : windowHeight - particle.size;
     }
     
     // 绘制多层光晕，从中心点逐步向周围散开
     const maxRadius = particle.size * 6;
+    const size2 = particle.size * 2;
+    const size4 = particle.size * 4;
     
     // 第一层光晕 - 最亮，最小范围
     const gradient1 = ctx.createRadialGradient(
       particle.x, particle.y, 0,
-      particle.x, particle.y, particle.size * 2
+      particle.x, particle.y, size2
     );
     gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
     gradient1.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.size * 2, 0, Math.PI * 2);
+    ctx.arc(particle.x, particle.y, size2, 0, Math.PI * 2);
     ctx.fillStyle = gradient1;
     ctx.globalAlpha = particle.opacity * 0.7;
     ctx.fill();
@@ -181,13 +192,13 @@ const drawParticles = () => {
     // 第二层光晕 - 中等亮度，中等范围
     const gradient2 = ctx.createRadialGradient(
       particle.x, particle.y, 0,
-      particle.x, particle.y, particle.size * 4
+      particle.x, particle.y, size4
     );
     gradient2.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
     gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.size * 4, 0, Math.PI * 2);
+    ctx.arc(particle.x, particle.y, size4, 0, Math.PI * 2);
     ctx.fillStyle = gradient2;
     ctx.globalAlpha = particle.opacity * 0.4;
     ctx.fill();
