@@ -23,7 +23,7 @@ interface Particle {
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const particles = ref<Particle[]>([]);
 const animationId = ref<number | null>(null);
-const particleCount = 65;
+const particleCount = 50;
 
 // 获取设备像素比
 const getPixelRatio = () => {
@@ -42,8 +42,8 @@ const createParticles = () => {
       y: Math.random() * window.innerHeight,
       size: size,
       originalSize: size,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: (Math.random() - 0.5) * 0.5,
+      speedX: (Math.random() - 0.5) * 2,
+      speedY: (Math.random() - 0.5) * 2,
       color: colors[Math.floor(Math.random() * colors.length)],
       angle: Math.random() * Math.PI * 2,
       radius: Math.random() * 50 + 50,
@@ -70,6 +70,65 @@ const resizeCanvas = () => {
   }
 };
 
+// 检查两个粒子是否碰撞
+const checkCollision = (p1: Particle, p2: Particle): boolean => {
+  const dx = p1.x - p2.x;
+  const dy = p1.y - p2.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  return distance < p1.size + p2.size;
+};
+
+// 处理粒子间碰撞
+const handleCollisions = () => {
+  for (let i = 0; i < particles.value.length; i++) {
+    for (let j = i + 1; j < particles.value.length; j++) {
+      const p1 = particles.value[i];
+      const p2 = particles.value[j];
+      
+      if (checkCollision(p1, p2)) {
+        // 计算碰撞后的速度（弹性碰撞）
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // 防止粒子重叠
+        const overlap = (p1.size + p2.size - distance) / 2;
+        const adjustX = (dx / distance) * overlap;
+        const adjustY = (dy / distance) * overlap;
+        
+        p1.x += adjustX;
+        p1.y += adjustY;
+        p2.x -= adjustX;
+        p2.y -= adjustY;
+        
+        // 计算碰撞后的速度
+        const normalX = dx / distance;
+        const normalY = dy / distance;
+        
+        const relativeVelocityX = p1.speedX - p2.speedX;
+        const relativeVelocityY = p1.speedY - p2.speedY;
+        
+        const speedAlongNormal = relativeVelocityX * normalX + relativeVelocityY * normalY;
+        
+        // 只有当粒子相互靠近时才处理碰撞
+        if (speedAlongNormal > 0) continue;
+        
+        // 弹性系数
+        const restitution = 0.8;
+        
+        // 碰撞冲量
+        const impulse = 2 * speedAlongNormal / (1 + 1);
+        
+        // 更新速度
+        p1.speedX -= impulse * normalX * restitution;
+        p1.speedY -= impulse * normalY * restitution;
+        p2.speedX += impulse * normalX * restitution;
+        p2.speedY += impulse * normalY * restitution;
+      }
+    }
+  }
+};
+
 // 绘制粒子
 const drawParticles = () => {
   if (!canvasRef.value) return;
@@ -83,9 +142,8 @@ const drawParticles = () => {
   // 更新和绘制每个粒子
   particles.value.forEach(particle => {
     // 更新粒子位置 - 创建浮动效果
-    particle.angle += 0.01;
-    particle.x += Math.cos(particle.angle) * 0.5;
-    particle.y += Math.sin(particle.angle) * 0.5;
+    particle.x += particle.speedX;
+    particle.y += particle.speedY;
     
     // 更新粒子透明度 - 创建闪烁效果（仅用于光晕）
     particle.opacity += particle.pulseSpeed * particle.opacityDirection;
@@ -94,11 +152,13 @@ const drawParticles = () => {
     }
     
     // 边界检查
-    if (particle.x < 0 || particle.x > window.innerWidth) {
-      particle.angle = Math.PI - particle.angle;
+    if (particle.x < particle.size || particle.x > window.innerWidth - particle.size) {
+      particle.speedX = -particle.speedX * 0.9;
+      particle.x = particle.x < particle.size ? particle.size : window.innerWidth - particle.size;
     }
-    if (particle.y < 0 || particle.y > window.innerHeight) {
-      particle.angle = -particle.angle;
+    if (particle.y < particle.size || particle.y > window.innerHeight - particle.size) {
+      particle.speedY = -particle.speedY * 0.9;
+      particle.y = particle.y < particle.size ? particle.size : window.innerHeight - particle.size;
     }
     
     // 绘制多层光晕，从中心点逐步向周围散开
@@ -160,6 +220,7 @@ const drawParticles = () => {
 
 // 动画循环
 const animate = () => {
+  handleCollisions();
   drawParticles();
   animationId.value = requestAnimationFrame(animate);
 };
