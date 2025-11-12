@@ -171,16 +171,16 @@ const drawParticles = () => {
     }
     
     // 绘制多层光晕，从中心点逐步向周围散开
-    const maxRadius = particle.size * 6;
-    const size2 = particle.size * 2;
-    const size4 = particle.size * 4;
+    const maxRadius = particle.size * 8;
+    const size2 = particle.size * 3;
+    const size4 = particle.size * 5;
     
     // 第一层光晕 - 最亮，最小范围
     const gradient1 = ctx.createRadialGradient(
       particle.x, particle.y, 0,
       particle.x, particle.y, size2
     );
-    gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+    gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
     gradient1.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
@@ -194,7 +194,7 @@ const drawParticles = () => {
       particle.x, particle.y, 0,
       particle.x, particle.y, size4
     );
-    gradient2.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+    gradient2.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
     gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
@@ -208,7 +208,7 @@ const drawParticles = () => {
       particle.x, particle.y, 0,
       particle.x, particle.y, maxRadius
     );
-    gradient3.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+    gradient3.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
     gradient3.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
