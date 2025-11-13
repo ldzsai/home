@@ -180,7 +180,7 @@ const drawParticles = () => {
       particle.x, particle.y, 0,
       particle.x, particle.y, size2
     );
-    gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
+    gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.32)');
     gradient1.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
@@ -194,7 +194,7 @@ const drawParticles = () => {
       particle.x, particle.y, 0,
       particle.x, particle.y, size4
     );
-    gradient2.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+    gradient2.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
     gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
@@ -208,7 +208,7 @@ const drawParticles = () => {
       particle.x, particle.y, 0,
       particle.x, particle.y, maxRadius
     );
-    gradient3.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+    gradient3.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
     gradient3.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.beginPath();
