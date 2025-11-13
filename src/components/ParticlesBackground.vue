@@ -36,7 +36,7 @@ const createParticles = () => {
   const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6', '#00f0ff', '#ff00c8'];
   
   for (let i = 0; i < particleCount; i++) {
-    const size = Math.random() * 3 + 0.5;
+    const size = Math.random() * (5 - 2) + 2;
     particles.value.push({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
