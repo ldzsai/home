@@ -2,39 +2,55 @@ import { nextTick } from 'vue'
 
 // 滚动动画和锚点跳转的composable
 export function useScrollAnimations() {
+  let observer: IntersectionObserver | null = null
+  let styleElement: HTMLStyleElement | null = null
+  
   // 初始化滚动动画
   const initScrollAnimations = async () => {
     // 等待下一个DOM更新周期
     await nextTick();
       
-    // 添加自定义动画样式
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+    // 添加自定义动画样式（只添加一次）
+    if (!styleElement) {
+      const existingStyle = document.head.querySelector('#scroll-animation-style');
+      if (existingStyle) {
+        styleElement = existingStyle as HTMLStyleElement;
+      } else {
+        styleElement = document.createElement('style');
+        styleElement.id = 'scroll-animation-style';
+        styleElement.textContent = `
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+          }
+          
+          .scroll-fade-initial {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+          }
+        `;
+        document.head.appendChild(styleElement);
       }
-      
-      .animate-fadeInUp {
-        animation: fadeInUp 0.6s ease forwards;
-      }
-      
-      .scroll-fade-initial {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-      }
-    `;
-    document.head.appendChild(style);
+    }
+
+    // 如果已有观察器，先断开连接
+    if (observer) {
+      observer.disconnect();
+    }
 
     // 创建观察器
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -54,8 +70,11 @@ export function useScrollAnimations() {
       const items = document.querySelectorAll('.grid-item, .role-card, .stat-item, .bento-grid > div');
       if (items.length > 0) {
         items.forEach((item) => {
-          item.classList.add('scroll-fade-initial');
-          observer.observe(item);
+          // 只有当元素还没有添加过初始动画类时才添加
+          if (!item.classList.contains('scroll-fade-initial') && !item.classList.contains('animate-fadeInUp')) {
+            item.classList.add('scroll-fade-initial');
+            observer!.observe(item);
+          }
         });
       } else if (attempts < maxAttempts) {
         attempts++;
@@ -74,7 +93,7 @@ export function useScrollAnimations() {
       // 等待下一个DOM更新周期
       await nextTick();
       
-      // 再等待一小段时间确保DOM完全渲染
+      // 查找并滚动到目标元素
       const scrollToElement = () => {
         const targetElement = document.querySelector(hash);
         if (targetElement) {
@@ -101,8 +120,17 @@ export function useScrollAnimations() {
     }
   }
 
+  // 清理函数
+  const cleanup = () => {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  }
+
   return {
     initScrollAnimations,
-    handleHashNavigation
+    handleHashNavigation,
+    cleanup
   }
 }

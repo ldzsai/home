@@ -20,18 +20,19 @@ interface Particle {
   pulseSpeed: number;        // 光晕闪烁速度
 }
 
+// 使用 ref 声明响应式数据
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const particles = ref<Particle[]>([]);
 const animationId = ref<number | null>(null);
 const particleCount = 50;
 
 // 获取设备像素比
-const getPixelRatio = () => {
+const getPixelRatio = (): number => {
   return window.devicePixelRatio || 1;
 };
 
 // 创建粒子
-const createParticles = () => {
+const createParticles = (): void => {
   particles.value = [];
   const colors = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8B5CF6', '#00f0ff', '#ff00c8'];
   
@@ -49,24 +50,27 @@ const createParticles = () => {
       radius: Math.random() * 50 + 50,
       opacity: Math.random(),
       opacityDirection: Math.random() > 0.5 ? 1 : -1,
-      pulseSpeed: Math.min(...[0.08, Math.random() * 0.01]) // 闪烁速度
+      pulseSpeed: Math.min(0.08, Math.random() * 0.01) // 修复这里的语法错误
     });
   }
 };
 
 // 调整画布大小
-const resizeCanvas = () => {
-  if (canvasRef.value) {
-    const pixelRatio = getPixelRatio();
-    canvasRef.value.width = window.innerWidth * pixelRatio;
-    canvasRef.value.height = window.innerHeight * pixelRatio;
-    canvasRef.value.style.width = window.innerWidth + 'px';
-    canvasRef.value.style.height = window.innerHeight + 'px';
-    
-    const ctx = canvasRef.value.getContext('2d');
-    if (ctx) {
-      ctx.scale(pixelRatio, pixelRatio);
-    }
+const resizeCanvas = (): void => {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  
+  const pixelRatio = getPixelRatio();
+  const { innerWidth, innerHeight } = window;
+  
+  canvas.width = innerWidth * pixelRatio;
+  canvas.height = innerHeight * pixelRatio;
+  canvas.style.width = `${innerWidth}px`;
+  canvas.style.height = `${innerHeight}px`;
+  
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    ctx.scale(pixelRatio, pixelRatio);
   }
 };
 
@@ -80,7 +84,7 @@ const checkCollision = (p1: Particle, p2: Particle): boolean => {
 };
 
 // 处理粒子间碰撞
-const handleCollisions = () => {
+const handleCollisions = (): void => {
   const particleArray = particles.value;
   const len = particleArray.length;
   
@@ -135,18 +139,18 @@ const handleCollisions = () => {
 };
 
 // 绘制粒子
-const drawParticles = () => {
-  if (!canvasRef.value) return;
+const drawParticles = (): void => {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
   
-  const ctx = canvasRef.value.getContext('2d');
+  const ctx = canvas.getContext('2d');
   if (!ctx) return;
   
   // 清空画布
-  ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   
   // 缓存窗口尺寸
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+  const { innerWidth: windowWidth, innerHeight: windowHeight } = window;
   
   // 更新和绘制每个粒子
   particles.value.forEach(particle => {
@@ -230,14 +234,14 @@ const drawParticles = () => {
 };
 
 // 动画循环
-const animate = () => {
+const animate = (): void => {
   handleCollisions();
   drawParticles();
   animationId.value = requestAnimationFrame(animate);
 };
 
 // 处理窗口大小调整
-const handleResize = () => {
+const handleResize = (): void => {
   resizeCanvas();
   createParticles();
 };
@@ -261,6 +265,8 @@ onUnmounted(() => {
   <canvas 
     ref="canvasRef" 
     class="particles"
+    role="presentation"
+    aria-hidden="true"
   ></canvas>
 </template>
 
@@ -273,5 +279,7 @@ onUnmounted(() => {
   height: 100%;
   z-index: 0;
   pointer-events: none;
+  /* 确保画布正确显示 */
+  display: block;
 }
 </style>
