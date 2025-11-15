@@ -1,11 +1,23 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ScenariosView from '../views/ScenariosView.vue'
+import ProjectsView from '../views/ProjectsView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: HomeView
+  },
+  {
+    path: '/scenarios',
+    name: 'Scenarios',
+    component: ScenariosView
+  },
+  {
+    path: '/projects',
+    name: 'Projects',
+    component: ProjectsView
   },
   // 添加针对各个section的路由
   {

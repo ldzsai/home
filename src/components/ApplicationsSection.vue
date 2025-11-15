@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 </script>
 
 <template>
@@ -59,11 +62,12 @@
     </div>
 
     <div class="mt-12 text-center">
-      <a href="#home"
+      <button
+        @click="router.push('/scenarios')"
         class="inline-block bg-geminiBlue hover:bg-geminiBlue/90 text-white font-medium py-2 px-6 rounded-full transition duration-300 transform hover:scale-105 text-sm md:text-base">
         探索更多
         <i class="fas fa-arrow-right ml-2"></i>
-      </a>
+      </button>
     </div>
   </section>
 </template>
