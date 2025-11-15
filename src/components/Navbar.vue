@@ -1,8 +1,23 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, onBeforeMount } from 'vue';
+import { ref, onMounted, onUnmounted, computed, onBeforeMount, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
 
 const isMenuOpen = ref(false);
 const windowWidth = ref(0);
+const activeSection = ref('');
+
+// 菜单项数据
+const menuItems = [
+  { id: 'home', label: '首页', icon: 'fas fa-home', href: '#home' },
+  { id: 'applications', label: '场景', icon: 'fas fa-shapes', href: '#applications' },
+  { id: 'projects', label: '项目', icon: 'fas fa-file-alt', href: '#projects' },
+  { id: 'data', label: '数据', icon: 'fas fa-database', href: '#data' },
+  { id: 'team', label: '团队', icon: 'fas fa-users', href: '#team' },
+  { id: 'contact', label: '联系我们', icon: 'fas fa-envelope', href: '#contact' }
+];
 
 const updateWindowWidth = () => {
   windowWidth.value = window.innerWidth;
@@ -29,6 +44,26 @@ const handleResize = () => {
   }
 };
 
+// 处理菜单项点击
+const handleMenuItemClick = (item: { id: string; href: string }) => {
+  // 关闭移动端菜单
+  isMenuOpen.value = false;
+  
+  // 更新活动section
+  activeSection.value = item.id;
+  
+  // 使用vue router导航
+  router.push(item.href);
+  
+  // 滚动到目标元素
+  setTimeout(() => {
+    const element = document.getElementById(item.id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+};
+
 // 使用计算属性来处理菜单类名，使模板更清晰
 const menuClasses = computed(() => {
   const isMobileView = windowWidth.value < 768;
@@ -41,20 +76,48 @@ const menuClasses = computed(() => {
 
 // 为每个菜单项计算类名
 const menuItemClasses = computed(() => {
-  return (isMobile: boolean) => ({
+  return (item: { id: string }, isMobile: boolean) => ({
     'px-3 py-2 text-sm lg:px-5 lg:py-3 lg:text-gray-300 hover:text-geminiBlue transition-all duration-300 rounded-xl hover:bg-geminiBlue/10 font-medium': true,
     'justify-start text-left w-full my-1': isMobile,
-    'text-center': !isMobile
+    'text-center': !isMobile,
+    // 选中状态样式，与hover样式保持一致
+    'text-geminiBlue bg-geminiBlue/10': activeSection.value === item.id
   });
 });
 
+// 更新活动section
+const updateActiveSection = () => {
+  // 从sessionStorage获取活动section
+  const storedSection = sessionStorage.getItem('activeSection');
+  if (storedSection) {
+    activeSection.value = storedSection;
+  } else {
+    // 默认设置为首页
+    activeSection.value = 'home';
+  }
+};
+
 onBeforeMount(() => {
   updateWindowWidth();
+  updateActiveSection();
 });
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
   window.addEventListener('resize', handleResize);
+  
+  // 监听路由变化
+  watch(
+    () => route.hash,
+    (newHash) => {
+      if (newHash) {
+        const sectionId = newHash.substring(1);
+        activeSection.value = sectionId;
+        sessionStorage.setItem('activeSection', sectionId);
+      }
+    },
+    { immediate: true }
+  );
 });
 
 onUnmounted(() => {
@@ -82,29 +145,13 @@ onUnmounted(() => {
       <div 
         id="desktopMenu" 
         :class="menuClasses">
-        <a href="#home"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-home mr-1 lg:mr-2"></i>首页
-        </a>
-        <a href="#applications"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-shapes mr-1 lg:mr-2"></i>场景
-        </a>
-        <a href="#projects"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-file-alt mr-1 lg:mr-2"></i>项目
-        </a>
-        <a href="#data"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-database mr-1 lg:mr-2"></i>数据
-        </a>
-        <a href="#team"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-users mr-1 lg:mr-2"></i>团队
-        </a>
-        <a href="#contact"
-          :class="menuItemClasses(isMenuOpen)">
-          <i class="fas fa-envelope mr-1 lg:mr-2"></i>联系我们
+        <a
+          v-for="item in menuItems"
+          :key="item.id"
+          @click.prevent="handleMenuItemClick(item)"
+          :href="item.href"
+          :class="menuItemClasses(item, isMenuOpen)">
+          <i :class="item.icon + ' mr-1 lg:mr-2'"></i>{{ item.label }}
         </a>
       </div>
 
